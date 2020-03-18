@@ -1,6 +1,6 @@
 const { functions, admin, db, storage, firebase, firebaseConfig } = require('./init.js');
 
-const { FBAuth, isEmail, isEmpty, validateInput } = require('./exports.js');
+const { FBAuth, isEmail, isEmpty, validateInput, getUserDetails } = require('./exports.js');
 
 exports.getPosts = (request, response) => { //"posts" is url showed finally
     db.collection('posts').orderBy('createdAt', 'desc').get()
@@ -18,7 +18,7 @@ exports.getPosts = (request, response) => { //"posts" is url showed finally
             console.error(e);
             response.status(500).json({error: e.code});
         });
-}
+};
 
 exports.doPost = (request, response) => {
     const newPost = {
@@ -35,7 +35,7 @@ exports.doPost = (request, response) => {
             response.status(500).json({error: 'something went wrong'})
             console.error(e);
         });
-}
+};
 
 exports.signUp = (request, response) => {
     const newUser = {
@@ -84,7 +84,7 @@ exports.signUp = (request, response) => {
             return response.status(500).json({error: e.code});
         }
     })
-}
+};
 
 exports.signIn = (request, response) => {
     const user = {
@@ -110,7 +110,7 @@ exports.signIn = (request, response) => {
 
             else return response.status(500).json({error: e.code});
         })
-}
+};
 
 exports.uploadImage = (request, response) => { // using busboy from npm 
     const BusBoy = require('busboy');
@@ -125,8 +125,10 @@ exports.uploadImage = (request, response) => { // using busboy from npm
 
     busBoy.on('file', (fieldname, file, filename, encoding, mimetype) => {
 
-        console.log(fieldname + "   " + filename + "  " + mimetype);
-            
+        if(!mimetype.includes('image')) {
+            return response.status(400).json({error: 'wrong file type submitted'});
+        }
+        
         const imageExtension = filename.split('.')[filename.split('.').length - 1];
         imageFileName = `${Math.round(Math.random()*100000000000)}.${imageExtension}`;
         const filepath = path.join(os.tmpdir(), imageFileName);
@@ -164,7 +166,42 @@ exports.uploadImage = (request, response) => { // using busboy from npm
     busBoy.end(request.rawBody);
 };
 
+exports.addUserDetails = (request, response) => {
+    //let userDetails = ;
 
+    db.doc(`/users/${request.user.handle}`).update(getUserDetails(request.body))
+        .then(() => {
+            return response.json({ message: 'Deatils added succesfully'});
+        })
+        .catch(e => {
+            console.error(e);
+            return response.status(500).json({error: e.code});
+        });
+};
+
+exports.getAuthenticatedUser = (request, response) => {
+    let userData = {};
+
+    db.doc(`/users/${request.user.handle}`).get()
+        .then(doc => {
+            if (doc.exists) {
+                userData.credentials = doc.data();
+                return db.collection('likes').where('userHandle', '==', request.user.handle).get();
+            }
+        })
+        .then(data => {
+            userData.likes =[];
+            data.forEach(doc => {
+                userData.likes.push(doc.data());
+            });
+            return response.json(userData);
+        })
+        .catch(e => {
+            console.error(e);
+            return response.status(500).json({ error: e.code });
+        });
+
+};
 
 
 
