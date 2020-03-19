@@ -26,12 +26,17 @@ exports.doPost = (request, response) => {
     const newPost = {
         body: request.body.body, 
         userHandle: request.user.handle, 
-        createdAt: new Date().toISOString()
+        userImage: request.user.imageUrl,
+        createdAt: new Date().toISOString(), 
+        likeCount: 0,
+        commentCount: 0
     };
 
     db.collection('posts').add(newPost)
         .then(doc => {
-            response.json({ message: `document ${doc.id} created sucessfully`});
+            const responsePost = newPost;
+            responsePost.postId = doc.id;
+            response.json(responsePost);
         })
         .catch(e => {
             response.status(500).json({error: 'something went wrong'})
@@ -56,35 +61,37 @@ exports.signUp = (request, response) => {
 
     db.doc(`/users/${newUser.handle}`).get()
     .then( doc => { 
+
         if (doc.exists) {
             return response.status(400).json({handle: 'this handle is already taken'});
-        } else {
-            return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password);
-        }
-    })
-    .then(data => { // WHEN RETURNING HANDLE IN USE THIS IS PERFORMED ANYWAY
-        userId = data.user.uid;
-        return data.user.getIdToken();
-    })
-    .then (token => { 
-        const userCredentials = {
-            handle: newUser.handle,
-            email: newUser.email,
-            createdAt: new Date().toISOString(),
-            imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/ProfilePictures%2F${noImg}?alt=media`,
-            userId
-        };
-        db.doc(`/users/${newUser.handle}`).set(userCredentials);
 
-        return response.status(201).json({ token });
-    })
-    .catch(e => {
-
-        console.error(e);
-        if (e.code === 'auth/email-already-in-use') {
-            return response.status(400).json({email: 'Email is already in use' });
         } else {
-            return response.status(500).json({error: e.code});
+            firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
+                .then(data => { // WHEN RETURNING HANDLE IN USE THIS IS PERFORMED ANYWAY
+                    userId = data.user.uid;
+                    return data.user.getIdToken();
+                })
+                .then (token => { 
+                    const userCredentials = {
+                        handle: newUser.handle,
+                        email: newUser.email,
+                        createdAt: new Date().toISOString(),
+                        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/ProfilePictures%2F${noImg}?alt=media`,
+                        userId
+                    };
+                    db.doc(`/users/${newUser.handle}`).set(userCredentials);
+
+                    return response.status(201).json({ token });
+                })
+                .catch(e => {
+
+                    console.error(e);
+                    if (e.code === 'auth/email-already-in-use') {
+                        return response.status(400).json({email: 'Email is already in use' });
+                    } else {
+                        return response.status(500).json({error: e.code});
+                    }
+                });
         }
     })
 };
@@ -253,21 +260,43 @@ exports.commentPost = (request, response) => {
 
     db.doc(`/posts/${request.params.postId}`).get()
         .then(doc => {
+
             if(!doc.exists) {
                 return response.status(404).json({ error: 'Post not found'});
+
+            } else {
+                db.collection('comments').add(newComment)
+                    .then(() => {
+                        response.json(newComment);
+                    }
+                );
             }
-            return db.collection('comments').add(newComment);
-        })
-        .then(() => {
-           response.json(newComment);
         })
         .catch(e => {
             console.error(e);
             response.status(500).json({error: 'Something went wrong here: ' + e.code});
-        })
+        });
 };
 
-//check commentpost for bugs
+exports.likePost = (request, response) => {
+    const likeDocument = db.collection('likes').where('userHandle', '==', request.user.handle)
+            .where('postId', '==', request.params.postId).limit(1);  //limit 1 because it can only exist once
+
+    const postDocument = db.doc(`/posts/${request.params.postId}`);
+    let postData = {};
+
+    postDocument.get()
+        .then(doc => {
+            if(doc.exists) {
+                
+            }
+        })
+
+};
+exports.unlikePost = (request, response) => {
+
+
+};
 
 
 
