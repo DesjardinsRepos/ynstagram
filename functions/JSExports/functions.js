@@ -265,8 +265,9 @@ exports.commentPost = (request, response) => {
                 return response.status(404).json({ error: 'Post not found'});
 
             } else {
-                db.collection('comments').add(newComment)
+                doc.ref.update({ commentCount: doc.data().commentCount + 1})
                     .then(() => {
+                        db.collection('comments').add(newComment);
                         response.json(newComment);
                     }
                 );
@@ -287,15 +288,82 @@ exports.likePost = (request, response) => {
 
     postDocument.get()
         .then(doc => {
-            if(doc.exists) {
-                
+
+            if(!doc.exists) {
+                return response.status(404).json({ error: 'post not found'});
+
+            } else {
+                postData = doc.data();
+                postData.postId = doc.id;
+                likeDocument.get()
+                .then(data => {
+
+                    if(data.empty) {
+                        return db.collection('likes').add({
+                            postId: request.params.postId,
+                            userHandle: request.user.handle
+                        })
+                        .then(() => {
+                            postData.likeCount ++;
+                            return postDocument.update({ likeCount: postData.likeCount})
+                        })
+                        .then(() => {
+                            return response.json(postData);
+                        })
+
+                    } else {
+                        return response.status(400).json({ error: 'Post already liked'});
+                    }
+                })
             }
         })
-
+        .catch(e => {
+            console.error(e);
+            response.status(500).json({ error: e.code});
+        });
 };
+
 exports.unlikePost = (request, response) => {
 
+    const likeDocument = db.collection('likes').where('userHandle', '==', request.user.handle)
+    .where('postId', '==', request.params.postId).limit(1);  //limit 1 because it can only exist once
 
+    const postDocument = db.doc(`/posts/${request.params.postId}`);
+    let postData = {};
+
+    postDocument.get()
+        .then(doc => {
+            
+            if(!doc.exists) {
+                return response.status(404).json({ error: 'post not found'});
+
+            } else {
+                postData = doc.data();
+                postData.postId = doc.id;
+                likeDocument.get()
+                .then(data => {
+
+                    if(!data.empty) {
+
+                        return db.doc(`/likes/${data.docs[0].id}`).delete()
+                        .then(() => {
+                            postData.likeCount --;
+                            return postDocument.update({likeCount: postData.likeCount})
+                        })
+                        .then(() => {
+                            response.json(postData);
+                        });
+
+                    } else {
+                        return response.status(400).json({ error: 'Post not liked'});
+                    }
+                });
+            }
+        })
+        .catch(e => {
+            console.error(e);
+            response.status(500).json({ error: e.code});
+        });
 };
 
 

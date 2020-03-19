@@ -20,4 +20,4 @@ app.post('/user/image', FBAuth, uploadImage);
 
 exports.api = functions.region('europe-west1').https.onRequest(app);
 
-// 3:06:18
+// 3:20:00
