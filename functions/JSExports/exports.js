@@ -58,6 +58,7 @@ const FBAuth = (request, response, next) => {
         })
         .then(data => {
             request.user.handle = data.docs[0].data().handle; // data() extracts data from doc[]
+            request.user.imageUrl = data.docs[0].data().imageUrl;
             return next();
         })
         .catch(e => {

@@ -3,6 +3,7 @@ const { functions, admin, db, storage, firebase, firebaseConfig } = require('./i
 const { FBAuth, isEmail, isEmpty, validateInput, getUserDetails } = require('./exports.js');
 
 exports.getPosts = (request, response) => { //"posts" is url showed finally
+
     db.collection('posts').orderBy('createdAt', 'desc').get()
         .then(data => { 
             let posts = [];
@@ -21,6 +22,7 @@ exports.getPosts = (request, response) => { //"posts" is url showed finally
 };
 
 exports.doPost = (request, response) => {
+
     const newPost = {
         body: request.body.body, 
         userHandle: request.user.handle, 
@@ -38,6 +40,7 @@ exports.doPost = (request, response) => {
 };
 
 exports.signUp = (request, response) => {
+
     const newUser = {
         email: request.body.email,
         password: request.body.password,
@@ -87,6 +90,7 @@ exports.signUp = (request, response) => {
 };
 
 exports.signIn = (request, response) => {
+
     const user = {
         email: request.body.email,
         password: request.body.password
@@ -113,6 +117,7 @@ exports.signIn = (request, response) => {
 };
 
 exports.uploadImage = (request, response) => { // using busboy from npm 
+
     const BusBoy = require('busboy');
     const path = require('path');
     const os = require('os');
@@ -167,7 +172,6 @@ exports.uploadImage = (request, response) => { // using busboy from npm
 };
 
 exports.addUserDetails = (request, response) => {
-    //let userDetails = ;
 
     db.doc(`/users/${request.user.handle}`).update(getUserDetails(request.body))
         .then(() => {
@@ -180,6 +184,7 @@ exports.addUserDetails = (request, response) => {
 };
 
 exports.getAuthenticatedUser = (request, response) => {
+
     let userData = {};
 
     db.doc(`/users/${request.user.handle}`).get()
@@ -203,8 +208,66 @@ exports.getAuthenticatedUser = (request, response) => {
 
 };
 
+exports.getPost = (request, response) => {
 
+    let postData = {};
+    db.doc(`/posts/${request.params.postId}`).get()
+        .then(doc => {
 
+            if(!doc.exists) {
+                return response.status(404).json({ error: 'post not found'});
+            } else {
+
+                postData = doc.data();
+                postData.postId = doc.id;
+                db.collection('comments').orderBy('createdAt', 'desc').where('postId', '==', request.params.postId).get()
+                    .then(data => {
+                        postData.comments = [];
+                        data.forEach(doc => {
+                            postData.comments.push(doc.data());
+                        });
+                        return response.json(postData);
+                    });
+            }
+        })
+        .catch(e => {
+            console.error(e);
+            response.status(500).json({ error: e.code });
+        });
+};
+
+exports.commentPost = (request, response) => {
+
+    if(request.body.body.trim() === '') return response.status(400).json({ error: 'Must not be empty'});
+
+    const newComment = {
+        body: request.body.body,
+        createdAt: new Date().toISOString(),
+        postId: request.params.postId,
+        userHandle: request.user.handle,
+        userImage: request.user.imageUrl // to get profile pic directly from comment, no further fetching
+    };
+
+    //this needs to be removed later
+    //if(newComment.userImage == undefined) newComment.userImage = "https://firebasestorage.googleapis.com/v0/b/id-ynstagram.appspot.com/o/ProfilePictures%2F11925540475.png?alt=media";
+
+    db.doc(`/posts/${request.params.postId}`).get()
+        .then(doc => {
+            if(!doc.exists) {
+                return response.status(404).json({ error: 'Post not found'});
+            }
+            return db.collection('comments').add(newComment);
+        })
+        .then(() => {
+           response.json(newComment);
+        })
+        .catch(e => {
+            console.error(e);
+            response.status(500).json({error: 'Something went wrong here: ' + e.code});
+        })
+};
+
+//check commentpost for bugs
 
 
 
