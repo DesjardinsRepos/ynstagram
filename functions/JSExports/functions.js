@@ -1,11 +1,12 @@
 const { functions, admin, db, storage, firebase, firebaseConfig } = require('./init.js');
-
 const { FBAuth, isEmail, isEmpty, validateInput, getUserDetails } = require('./exports.js');
+
 
 exports.getPosts = (request, response) => { //"posts" is url showed finally
 
     db.collection('posts').orderBy('createdAt', 'desc').get()
         .then(data => { 
+
             let posts = [];
             data.forEach(doc => {
                 posts.push({
@@ -34,6 +35,7 @@ exports.doPost = (request, response) => {
 
     db.collection('posts').add(newPost)
         .then(doc => {
+
             const responsePost = newPost;
             responsePost.postId = doc.id;
             response.json(responsePost);
@@ -86,8 +88,10 @@ exports.signUp = (request, response) => {
                 .catch(e => {
 
                     console.error(e);
+
                     if (e.code === 'auth/email-already-in-use') {
                         return response.status(400).json({email: 'Email is already in use' });
+
                     } else {
                         return response.status(500).json({error: e.code});
                     }
@@ -95,6 +99,7 @@ exports.signUp = (request, response) => {
         }
     })
 };
+
 
 exports.signIn = (request, response) => {
 
@@ -137,12 +142,10 @@ exports.uploadImage = (request, response) => { // using busboy from npm
 
     busBoy.on('file', (fieldname, file, filename, encoding, mimetype) => {
 
-        if(!mimetype.includes('image')) {
-            return response.status(400).json({error: 'wrong file type submitted'});
-        }
+        if(!mimetype.includes('image')) return response.status(400).json({error: 'wrong file type submitted'});
         
         const imageExtension = filename.split('.')[filename.split('.').length - 1];
-        imageFileName = `${Math.round(Math.random()*100000000000)}.${imageExtension}`;
+        imageFileName = `${Math.round(Math.random()*100000000000)}.${imageExtension}`; //+ check if name is valid
         const filepath = path.join(os.tmpdir(), imageFileName);
 
         imageHolder = { filepath, mimetype };
@@ -364,6 +367,39 @@ exports.unlikePost = (request, response) => {
             console.error(e);
             response.status(500).json({ error: e.code});
         });
+};
+
+exports.deletePost = (request, response) => {
+
+    const document = db.doc(`posts/${request.params.postId}`);
+    document.get()
+    .then(doc => {
+
+        if(!doc.exists) {
+            return response.status(404).json({ error: 'Post not found'});
+        }
+        else if(doc.data().userHandle !== request.user.handle) {
+            return response.status(403).json({ error: 'Unauthorized'});
+
+        } else {
+            document.delete()
+            .then(() => {
+                return response.json({ message: 'Post deleted succesfully'});
+                //return db.collection('comments').where('postId', '==', request.params.postId ).get();
+            })
+            /*db.collection('comments').where('postId', '==', doc.body.id).delete()
+            .then((d) => {
+                console.error(d);
+                response.json(d);
+                d.delete(d);
+                    
+            })*/
+        }
+    })
+    .catch(e => {
+        console.error(e);
+        return response.status(500).json({ error: e.code});
+    });
 };
 
 

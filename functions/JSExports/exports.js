@@ -1,11 +1,14 @@
 const { admin, db } = require('./init.js');
 
+
 const isEmpty = (string) => {
+
     if (string.trim() === '') return true
     else return false;
 } 
 
 const isEmail = (email) => {
+
     const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.match(emailRegEx)) return true; else return false;
 }
@@ -44,8 +47,10 @@ const validateInput = (user, type) => {
 const FBAuth = (request, response, next) => {
 
     let idToken;
+
     if (request.headers.authorization && request.headers.authorization.startsWith('Bearer ')) {
         idToken = request.headers.authorization.split('Bearer ')[1];
+
     } else {
         console.error('No token found');
         return response.status(403).json({error: 'Unauthorized'});
@@ -64,7 +69,7 @@ const FBAuth = (request, response, next) => {
         .catch(e => {
             console.error('Error while verifying token ', e);
             response.status(403).json(e); // e is already a json so no fancy {} stuff
-        })
+        });
 }
 
 const getUserDetails = data => {
@@ -73,13 +78,15 @@ const getUserDetails = data => {
     if(!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
 
     if(!isEmpty(data.website.trim())) {
+
         if(data.website.trim().substring(0, 4) !== 'http') {
             userDetails.website = `http://${data.website.trim()}`;
+
         } else {
             userDetails.website = data.website;
         }
     }
-
+    
     if(!isEmpty(data.location.trim())) userDetails.location = data.location;
 
     return userDetails;
