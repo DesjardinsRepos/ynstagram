@@ -93,13 +93,12 @@ exports.signUp = (request, response) => {
                         return response.status(400).json({email: 'Email is already in use' });
 
                     } else {
-                        return response.status(500).json({error: e.code});
+                        return response.status(500).json({ general: 'Something went wrong. Please try again.'});
                     }
                 });
         }
     })
 };
-
 
 exports.signIn = (request, response) => {
 
@@ -110,7 +109,7 @@ exports.signIn = (request, response) => {
 
     let { valid, exceptions } = validateInput(user, 'signIn');
     if(!valid) return response.status(400).json(exceptions);
-
+	
     firebase.auth().signInWithEmailAndPassword(user.email, user.password)
         .then(data => {
             return data.user.getIdToken();
@@ -120,12 +119,8 @@ exports.signIn = (request, response) => {
         })
         .catch(e => {
             console.error(e);
-
-            if(e.code === 'auth/wrong-password') 
-                return response.status(403).json({general: 'Wrong password'});
-
-            else return response.status(500).json({error: e.code});
-        })
+            return response.status(403).json({ general: 'Wrong credentials, please try again.'});
+        });
 };
 
 exports.uploadImage = (request, response) => { // using busboy from npm 
@@ -209,6 +204,20 @@ exports.getAuthenticatedUser = (request, response) => {
             data.forEach(doc => {
                 userData.likes.push(doc.data());
             });
+            return db.collection('notifications').where('recipient', '==', request.user.handle).orderBy('createdAt', 'desc').limit(25).get();
+        })
+        .then(data => {
+            userData.notifications = [];
+            data.forEach(doc => {
+                userData.notifications.push({
+                    recipient: doc.data().recipient,
+                    sender: doc.data().sender,
+                    createdAt: doc.data().createdAt,
+                    postId: doc.data().postId,
+                    read: doc.data().read,
+                    notificationId: doc.id
+                });
+            });
             return response.json(userData);
         })
         .catch(e => {
@@ -248,7 +257,7 @@ exports.getPost = (request, response) => {
 
 exports.commentPost = (request, response) => {
 
-    if(request.body.body.trim() === '') return response.status(400).json({ error: 'Must not be empty'});
+    if(request.body.body.trim() === '') return response.status(400).json({ comment: 'Must not be empty'});
 
     const newComment = {
         body: request.body.body,
@@ -385,21 +394,70 @@ exports.deletePost = (request, response) => {
             document.delete()
             .then(() => {
                 return response.json({ message: 'Post deleted succesfully'});
-                //return db.collection('comments').where('postId', '==', request.params.postId ).get();
-            })
-            /*db.collection('comments').where('postId', '==', doc.body.id).delete()
-            .then((d) => {
-                console.error(d);
-                response.json(d);
-                d.delete(d);
-                    
-            })*/
+            });
         }
     })
     .catch(e => {
         console.error(e);
         return response.status(500).json({ error: e.code});
     });
+};
+
+exports.getUserDetails = (request, response) => {
+
+    let userData = {};
+
+    db.doc(`/users/${request.params.handle}`).get()
+    	.then(doc => {
+
+            if(doc.exists) {
+                userData.user = doc.data();
+                db.collection('posts').where('userHandle', '==', request.params.handle).orderBy('createdAt', 'desc').get()
+                .then(data => {
+
+                    userData.posts = [];
+                    data.forEach(doc => {
+
+                        userData.posts.push({
+                            body: doc.data().body,
+                            createdAt: doc.data().createdAt,
+                            userHandle: doc.data().userHandle,
+                            userImage: doc.data().userImage,
+                            likeCount: doc.data().likeCount,
+                            commentCount: doc.data().commentCount,
+                            postId: doc.id
+                        });
+                	});
+                return response.json(userData);
+               })
+
+            } else {
+                return response.status(404).json({ error: 'User not found'});
+            }
+        })
+        .catch(e => {
+            console.error(e);
+            return response.status(500).json({ error: e.code});
+        });
+};
+
+exports.markNotificationsRead = (request, response) => {
+
+	let batch = db.batch();  //requred when updating multiple documents
+
+	request.body.forEach(notificationId => {
+		const notification = db.doc(`/notifications/${notificationId}`);
+		batch.update(notification, { read: true });
+	});
+
+	batch.commit()
+		.then(() => {
+			return response.json({ message: 'Notifications read'});
+		})
+		.catch(e => {
+			console.error(e);
+			return response.status(500).json({ error: e.code});
+		});
 };
 
 
