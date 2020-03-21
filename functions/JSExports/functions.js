@@ -459,10 +459,3 @@ exports.markNotificationsRead = (request, response) => {
 			return response.status(500).json({ error: e.code});
 		});
 };
-
-
-
-
-
-
-

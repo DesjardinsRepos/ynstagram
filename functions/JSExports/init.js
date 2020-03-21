@@ -27,4 +27,3 @@ firebase.initializeApp(firebaseConfig);
 
 
 module.exports = { functions, admin, db, storage, firebaseConfig, firebase, app };
-
