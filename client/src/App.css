@@ -5,6 +5,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  background-color: rgb(254, 239, 255);
 }
 .container {
   margin: 80px auto 0 auto;
@@ -12,4 +13,7 @@ body {
 }
 .nav-container {
   margin: auto 3vw auto auto;
+}
+a {
+  text-decoration: none;
 }

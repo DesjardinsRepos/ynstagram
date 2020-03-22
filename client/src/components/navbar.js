@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import Link from 'react-router-dom/Link';
-
-//material UI
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
 
 
 class Navbar extends Component {
