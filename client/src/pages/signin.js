@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, TextField, Button, LinearProgress } from '@material-ui/core';
+import { Grid, Typography, TextField, Button, LinearProgress, CardContent, CardMedia, Card } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -37,6 +37,9 @@ const styles = {
     },
     link: {
         color: "#e91e63" // make this relative later
+    },
+    card: {
+        'min-width' : '24rem'
     }
 }
 
@@ -95,27 +98,33 @@ class SigninPage extends Component {
         return (
             <Grid container className={classes.form}>
                 <Grid item sm/>
-
                 <Grid item sm>
-                    <img src={MainIcon} className={classes.image}/>
+                    
+                    <Card className={classes.card} className="loginCard">
+                    <CardContent className={classes.content}>
 
-                    <Typography variant="h2" className={classes.pageTitle}>Login</Typography>
+                        <img src={MainIcon} className={classes.image}/>
 
-                    <form noValidate onSubmit={this.onSubmit}>
-                        <TextField id="email" name="email" type="email" label="Email" className={classes.textField} value={this.state.email}
-                         onChange={this.onChange} fullWidth helperText={errors.email} error={errors.email ? true : false}/>
+                        <Typography variant="h2" className={classes.pageTitle}>Login</Typography>
 
-                        <TextField id="password" name="password" type="password" label="Password" className={classes.textField} value={this.state.password} 
-                        onChange={this.onChange} fullWidth helperText={errors.password} error={errors.password ? true : false}/> 
+                        <form noValidate onSubmit={this.onSubmit}>
+                            <TextField id="email" name="email" type="email" label="Email" className={classes.textField} value={this.state.email}
+                            onChange={this.onChange} fullWidth helperText={errors.email} error={errors.email ? true : false}/>
+
+                            <TextField id="password" name="password" type="password" label="Password" className={classes.textField} value={this.state.password} 
+                            onChange={this.onChange} fullWidth helperText={errors.password} error={errors.password ? true : false}/> 
                         
-                        <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading}>
-                            signin {loading && (<LinearProgress className={classes.progress}/>)}
-                        </Button> <br/>
+                            <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading}>
+                                signin {loading && (<LinearProgress className={classes.progress}/>)}
+                            </Button> <br/>
                         
                         
-                    </form> <br/>
+                        </form> <br/>
 
-                    <small>want to create an account instead? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
+                        <small>dont have an Account? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
+
+                    </CardContent>
+                    </Card>
                 </Grid>
 
                 <Grid item sm/>
