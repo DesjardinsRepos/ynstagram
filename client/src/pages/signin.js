@@ -1,47 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, TextField, Button, LinearProgress, CardContent, CardMedia, Card } from '@material-ui/core';
+import { Grid, Typography, TextField, Button, LinearProgress, Card, CardContent} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import MainIcon from '../ressources/images/MainIcon.png';
-
-const styles = {
-    form: {
-        textAlign: 'center'
-    },
-    image: {
-        margin: '20px auto 20px auto'
-    },
-    pageTitle: { 
-        margin: '15px auto 15px auto'
-    },
-    textField: {
-        margin: '15px auto 15px auto'
-    }, 
-    button: {
-        marginTop: 20,
-        position: 'relative',
-        'min-width': '6rem', 
-        width: '25%',
-        "&:disabled": {
-            backgroundColor: "#ad1457",
-            color: '#f06292'
-          }
-    },
-    progress: {
-        bottom: '0',
-        position: 'absolute',
-        width: '98%'
-    },
-    link: {
-        color: "#e91e63" // make this relative later
-    },
-    card: {
-        'min-width' : '24rem'
-    }
-}
+import styles from '../exports/signinFormStyles';
 
 class SigninPage extends Component {
 
@@ -55,7 +20,6 @@ class SigninPage extends Component {
             errors: {}
         }
     }
-
 
     onSubmit = event => {
 
@@ -72,6 +36,9 @@ class SigninPage extends Component {
         
         axios.post('/signin', userData)
             .then(result => {
+
+                localStorage.setItem('FBAuthToken', `Bearer ${result.data.token}`);
+
                 this.setState({
                     loading: false
                 });
@@ -96,13 +63,14 @@ class SigninPage extends Component {
         const { errors, loading } = this.state;
 
         return (
-            <Grid container className={classes.form}>
-                <Grid item sm/>
-                <Grid item sm>
-                    
+            
+            <Grid container className={classes.container}>
+                <Grid item sm className={classes.form}>
                     <Card className={classes.card} className="loginCard">
-                    <CardContent className={classes.content}>
 
+                    {loading && (<LinearProgress/>)}
+
+                    <CardContent className={classes.content}>
                         <img src={MainIcon} className={classes.image}/>
 
                         <Typography variant="h2" className={classes.pageTitle}>Login</Typography>
@@ -115,19 +83,15 @@ class SigninPage extends Component {
                             onChange={this.onChange} fullWidth helperText={errors.password} error={errors.password ? true : false}/> 
                         
                             <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading}>
-                                signin {loading && (<LinearProgress className={classes.progress}/>)}
+                                signin 
                             </Button> <br/>
-                        
-                        
                         </form> <br/>
 
-                        <small>dont have an Account? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
+                        <small>Dont have an Account? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
 
                     </CardContent>
                     </Card>
                 </Grid>
-
-                <Grid item sm/>
             </Grid>
         )
     }

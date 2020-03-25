@@ -2,26 +2,31 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { pink, purple } from '@material-ui/core/colors'
+import tokenDecoder from 'jwt-decode';
 
 import LandingPage from './pages/landingPage';
 import SignupPage from './pages/signup';
 import SigninPage from './pages/signin';
 
 import Navbar from './components/navbar';
+import AuthRoute from './exports/authRoute';
+
+import t from './exports/theme'
 
 
-const theme = createMuiTheme({
-	palette: {
-		primary: pink,
-		secondary: purple
-	},
-	typography: {
-		useNextVariants: true
+const theme = createMuiTheme(t);
+
+let authenticated;/*
+const token = localStorage.FBAuthToken;
+if(token) {
+	const decodedToken = tokenDecoder(token);
+	if(decodedToken.exp * 1000 < Date.now()) {
+		window.location.href= '/signin';
+		authenticated = false;
+	} else {
+		authenticated = true;
 	}
-});
-
-
+} */
 
 function App() {
 	return (
@@ -34,8 +39,8 @@ function App() {
       				<div className="container">
         				<Switch>
             				<Route exact path="/" component={LandingPage}/>
-            				<Route exact path="/signin" component={SigninPage}/>
-            				<Route exact path="/signup" component={SignupPage}/>
+            				<AuthRoute exact path="/signin" component={SigninPage} authenticated={authenticated}/>
+            				<AuthRoute exact path="/signup" component={SignupPage} authenticated={authenticated}/>
         				</Switch>
       				</div>
 
