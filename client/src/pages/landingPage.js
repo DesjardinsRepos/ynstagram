@@ -13,7 +13,7 @@ class LandingPage extends Component {
             .then(response => {
                 this.setState({
                     posts: response.data
-                })
+                });
             })
             .catch(e => console.log(e));
     }

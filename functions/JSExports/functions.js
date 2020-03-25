@@ -119,7 +119,9 @@ exports.signIn = (request, response) => {
         })
         .catch(e => {
             console.error(e);
-            return response.status(403).json({ general: 'Wrong credentials, please try again.'});
+            if(e.code == 'auth/invalid-email') return response.status(403).json({ email: 'This seems to be an invalid email, please try again.'});
+            if(e.code == 'auth/user-not-found') return response.status(403).json({ email: 'An Account with this email does not exist.'});
+            return response.status(403).json({ password: 'Wrong password, please try again.'});
         });
 };
 
@@ -140,7 +142,8 @@ exports.uploadImage = (request, response) => { // using busboy from npm
         if(!mimetype.includes('image')) return response.status(400).json({error: 'wrong file type submitted'});
         
         const imageExtension = filename.split('.')[filename.split('.').length - 1];
-        imageFileName = `${Math.round(Math.random()*100000000000)}.${imageExtension}`; //+ check if name is valid
+        imageFileName = `${Math.round(Math.random()*100000000000)}.${imageExtension}`; 
+        //+ check if name is valid
         const filepath = path.join(os.tmpdir(), imageFileName);
 
         imageHolder = { filepath, mimetype };

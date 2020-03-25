@@ -19,13 +19,13 @@ const validateInput = (user, type) => {
 
     if (type === 'signUp') {
 
-        if (isEmpty(user.email)) exceptions.email = 'Email must not be empty';
-        else if (!isEmail(user.email)) exceptions.email = 'Must be a valid email adress';
+        if (isEmpty(user.email)) exceptions.email = 'Email must not be empty.';
+        else if (!isEmail(user.email)) exceptions.email = 'Must be a valid email adress.';
 
-        if (isEmpty(user.password)) exceptions.password = 'Password must not be empty';
-        else if (user.password !== user.confirmPassword) exceptions.confirmPassword = 'Passwords are not the same';
+        if (isEmpty(user.password)) exceptions.password = 'Password must not be empty.';
+        else if (user.password !== user.confirmPassword) exceptions.confirmPassword = 'Passwords are not the same.';
 
-        if (isEmpty(user.handle)) exceptions.handle = 'Username must not be empty';
+        if (isEmpty(user.handle)) exceptions.handle = 'Username must not be empty.';
 
         return {
             exceptions,
@@ -34,8 +34,8 @@ const validateInput = (user, type) => {
     }
     else if (type === 'signIn') {
 
-        if(isEmpty(user.email)) exceptions.email = 'Email must not be empty';
-        if(isEmpty(user.password)) exceptions.password = 'Password must not be empty';
+        if(isEmpty(user.email)) exceptions.email = 'Email must not be empty.';
+        if(isEmpty(user.password)) exceptions.password = 'Password must not be empty.';
 
         return {
             exceptions,
