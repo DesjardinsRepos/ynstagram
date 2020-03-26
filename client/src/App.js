@@ -16,17 +16,17 @@ import t from './exports/theme'
 
 const theme = createMuiTheme(t);
 
-let authenticated;/*
+let authenticated;
 const token = localStorage.FBAuthToken;
 if(token) {
 	const decodedToken = tokenDecoder(token);
 	if(decodedToken.exp * 1000 < Date.now()) {
-		window.location.href= '/signin';
+		//window.location.href= '/signin';
 		authenticated = false;
 	} else {
 		authenticated = true;
 	}
-} */
+} 
 
 function App() {
 	return (

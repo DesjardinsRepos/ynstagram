@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import MainIcon from '../ressources/images/MainIcon.png';
-import styles from '../exports/signinFormStyles';
+import styles from '../styles/signinFormStyles';
 
 class SigninPage extends Component {
 
@@ -66,12 +66,12 @@ class SigninPage extends Component {
             
             <Grid container className={classes.container}>
                 <Grid item sm className={classes.form}>
-                    <Card className={classes.card} className="loginCard">
+                    <Card className={classes.card}>
 
                     {loading && (<LinearProgress/>)}
 
                     <CardContent className={classes.content}>
-                        <img src={MainIcon} className={classes.image}/>
+                        <img src={MainIcon} className={classes.image} alt=""/>
 
                         <Typography variant="h2" className={classes.pageTitle}>Login</Typography>
 
