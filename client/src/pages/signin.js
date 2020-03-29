@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, TextField, Button, LinearProgress, Card, CardContent} from '@material-ui/core';
+import { Grid, Typography, TextField, Button, LinearProgress, Card, CardContent } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+
+import { connect } from 'react-redux';
+import { loginUser } from '../redux/actions/userActions';
 
 import MainIcon from '../ressources/images/MainIcon.png';
-import styles from '../styles/signinFormStyles';
+import styles from '../styles/signinForm';
 
 class SigninPage extends Component {
 
@@ -16,40 +18,24 @@ class SigninPage extends Component {
         this.state = {
             email: '',
             password: '',
-            loading: false,
             errors: {}
         }
     }
 
-    onSubmit = event => {
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.ui.errors) {
+            this.setState({ errors: nextProps.ui.errors });
+        }
+    }
 
+    onSubmit = event => {
         event.preventDefault();
 
         const userData = {
             email: this.state.email,
             password: this.state.password
         };
-
-        this.setState({
-            loading: true
-        });
-        
-        axios.post('/signin', userData)
-            .then(result => {
-
-                localStorage.setItem('FBAuthToken', `Bearer ${result.data.token}`);
-
-                this.setState({
-                    loading: false
-                });
-                this.props.history.push('/'); //redirect to '/'
-            })
-            .catch(e => {
-                this.setState({
-                    errors: e.response.data,
-                    loading: false
-                });
-            });
+        this.props.loginUser(userData, this.props.history);
     }
 
     onChange = event => {
@@ -59,8 +45,8 @@ class SigninPage extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { errors, loading } = this.state;
+        const { classes, ui:{ loading } } = this.props;
+        const { errors } = this.state;
 
         return (
             
@@ -87,7 +73,7 @@ class SigninPage extends Component {
                             </Button> <br/>
                         </form> <br/>
 
-                        <small>Dont have an Account? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
+                        <small>Don't have an Account? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
 
                     </CardContent>
                     </Card>
@@ -98,7 +84,17 @@ class SigninPage extends Component {
 }
 
 SigninPage.propTypes = {
-    classes: PropTypes.object.isRequired
-}
+    classes: PropTypes.object.isRequired,
+    // mapped states from redux
+    loginUser: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    ui: PropTypes.object.isRequired
+};
 
-export default withStyles(styles)(SigninPage);
+const mapState = state => ({ // maps state to props
+    user: state.user,
+    ui: state.ui
+});
+const mapActions = { loginUser };
+
+export default connect(mapState, mapActions)(withStyles(styles)(SigninPage));

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, TextField, Button, LinearProgress, Card, CardContent} from '@material-ui/core';
+import { Grid, Typography, TextField, Button, LinearProgress, Card, CardContent } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 import MainIcon from '../ressources/images/MainIcon.png';
+import styles from '../styles/signinForm';
 
-import styles from '../styles/signinFormStyles';
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
 
 class SignupPage extends Component {
 
@@ -19,43 +20,28 @@ class SignupPage extends Component {
             password: '',
             confirmPassword: '',
             handle: '',
-            loading: false,
             errors: {}
         }
     }
 
-    onSubmit = event => {
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.ui.errors) {
+            this.setState({ errors: nextProps.ui.errors });
+        }
+    }
 
+    onSubmit = event => {
         event.preventDefault();
 
-        const newUserData = {
+        const userData = {
             email: this.state.email,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
             handle: this.state.handle
-
         };
+        this.setState({ loading: true });
 
-        this.setState({
-            loading: true
-        });
-        
-        axios.post('/signup', newUserData)
-            .then(result => {
-
-                localStorage.setItem('FBAuthToken', `Bearer ${result.data.token}`);
-
-                this.setState({
-                    loading: false
-                });
-                this.props.history.push('/'); //redirect to '/'
-            })
-            .catch(e => {
-                this.setState({
-                    errors: e.response.data,
-                    loading: false
-                });
-            });
+        this.props.signupUser(userData, this.props.history);
     }
 
     onChange = event => {
@@ -65,8 +51,8 @@ class SignupPage extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { errors, loading } = this.state;
+        const { classes, ui: { loading } } = this.props;
+        const { errors } = this.state;
 
         return (
             
@@ -92,7 +78,7 @@ class SignupPage extends Component {
                             <TextField id="password" name="password" type="password" label="Password" className={classes.textField} value={this.state.password} 
                             onChange={this.onChange} fullWidth helperText={errors.password} error={errors.password ? true : false}/> 
 
-                            <TextField id="confirmPassword" name="confirmPassword" type="confirmPassword" label="confirm Password" className={classes.textField} value={this.state.confirmPassword} 
+                            <TextField id="confirmPassword" name="confirmPassword" type="password" label="confirm Password" className={classes.textField} value={this.state.confirmPassword} 
                             onChange={this.onChange} fullWidth helperText={errors.confirmPassword} error={errors.confirmPassword ? true : false}/> 
                         
                             <Button type="submit" variant="contained" color={"primary"} className={classes.button} disabled={loading}>
@@ -111,7 +97,16 @@ class SignupPage extends Component {
 }
 
 SignupPage.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    ui: PropTypes.object.isRequired,
+    signupUser: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(SignupPage);
+const mapState = state => ({
+    user: state.user,
+    ui: state.ui
+});
+const mapActions = { signupUser };
+
+export default connect(mapState, mapActions)(withStyles(styles)(SignupPage));

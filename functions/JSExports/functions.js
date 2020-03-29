@@ -200,7 +200,7 @@ exports.getAuthenticatedUser = (request, response) => {
             if (doc.exists) {
                 userData.credentials = doc.data();
                 return db.collection('likes').where('userHandle', '==', request.user.handle).get();
-            }
+            } // exception handling ???
         })
         .then(data => {
             userData.likes =[];

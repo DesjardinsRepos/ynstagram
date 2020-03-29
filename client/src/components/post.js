@@ -7,21 +7,7 @@ import { Typography, CardContent, CardMedia, Card } from '@material-ui/core';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-
-const styles = {
-    card: {
-		display: 'flex', 
-		marginBottom: 20
-	},
-	image: {
-		minWidth: 200
-	},
-	content: {
-		padding: 25, 
-		objectFit: 'cover'
-	}
-}
-
+import styles from '../styles/post';
 
 class post extends Component {
     render() {

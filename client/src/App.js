@@ -4,34 +4,41 @@ import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import tokenDecoder from 'jwt-decode';
 
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { SET_AUTHENTICATED } from './redux/types';
+import { logoutUser, getUserData } from './redux/actions/userActions';
+
 import LandingPage from './pages/landingPage';
 import SignupPage from './pages/signup';
 import SigninPage from './pages/signin';
 
 import Navbar from './components/navbar';
 import AuthRoute from './exports/authRoute';
-
 import t from './exports/theme'
+import axios from 'axios';
 
 
 const theme = createMuiTheme(t);
 
-let authenticated;
 const token = localStorage.FBAuthToken;
 if(token) {
 	const decodedToken = tokenDecoder(token);
 	if(decodedToken.exp * 1000 < Date.now()) {
-		//window.location.href= '/signin';
-		authenticated = false;
+		store.dispatch(logoutUser())
+		window.location.href= '/signin';
 	} else {
-		authenticated = true;
+		store.dispatch({ type: SET_AUTHENTICATED });
+		axios.defaults.headers.common['Authorization'] = token;
+		store.dispatch(getUserData());
 	}
 } 
 
 function App() {
 	return (
-		<MuiThemeProvider theme={theme}>
-			<div className="App">
+		<Provider store={store}>
+
+			<MuiThemeProvider theme={theme}>
       			<Router>
 
         			<Navbar/>
@@ -39,14 +46,13 @@ function App() {
       				<div className="container">
         				<Switch>
             				<Route exact path="/" component={LandingPage}/>
-            				<AuthRoute exact path="/signin" component={SigninPage} authenticated={authenticated}/>
-            				<AuthRoute exact path="/signup" component={SignupPage} authenticated={authenticated}/>
+            				<AuthRoute exact path="/signin" component={SigninPage}/> /* make invisible if logged in */
+            				<AuthRoute exact path="/signup" component={SignupPage}/>
         				</Switch>
       				</div>
-
       			</Router>
-   			</div>
-		</MuiThemeProvider>
+			</MuiThemeProvider>
+		</Provider>
 	);
 }
 export default App;
