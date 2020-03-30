@@ -1,3 +1,7 @@
+import { createMuiTheme } from "@material-ui/core";
+import t from '../exports/theme'
+const theme = createMuiTheme(t); //unite theme later
+
 export default {
     container: {
         textAlign: 'center',
@@ -22,12 +26,12 @@ export default {
         'min-width': '6rem', 
         width: '25%',
         "&:disabled": {
-            backgroundColor: "#ad1457",
-            color: '#f06292'
+            backgroundColor: theme.palette.primary.dark,
+            color: theme.palette.primary.light
           }
     },
     link: {
-        color: "#e91e63" // make this relative later
+        color: theme.palette.primary.main
     },
     card: {
         'min-width' : '24rem'
