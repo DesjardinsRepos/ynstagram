@@ -10,6 +10,7 @@ const authRoute = ({ component: Component, authenticated, ...rest}) => (
 
 const mapState = state => ({
     authenticated: state.user.authenticated
+    //get user data?
 });
 
 authRoute.propTypes = {

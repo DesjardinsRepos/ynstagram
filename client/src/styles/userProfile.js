@@ -1,6 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
-import t from '../exports/theme'
-const theme = createMuiTheme(t); //unite theme later
+import theme from '../exports/theme';
 
 export default {
     paper: {
@@ -47,5 +45,8 @@ export default {
         '& a': {
             margin: '20px 10px'
         }
+    },
+    button: {
+        float: 'right'
     }
 }

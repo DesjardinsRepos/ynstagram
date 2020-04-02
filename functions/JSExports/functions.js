@@ -20,7 +20,7 @@ exports.getPosts = (request, response) => { //"posts" is url showed finally
             console.error(e);
             response.status(500).json({error: e.code});
         });
-};
+}
 
 exports.doPost = (request, response) => {
 
@@ -44,7 +44,7 @@ exports.doPost = (request, response) => {
             response.status(500).json({error: 'something went wrong'})
             console.error(e);
         });
-};
+}
 
 exports.signUp = (request, response) => {
 
@@ -97,8 +97,8 @@ exports.signUp = (request, response) => {
                     }
                 });
         }
-    })
-};
+    });
+}
 
 exports.signIn = (request, response) => {
 
@@ -123,7 +123,7 @@ exports.signIn = (request, response) => {
             if(e.code == 'auth/user-not-found') return response.status(403).json({ email: 'An Account with this email does not exist.'});
             return response.status(403).json({ password: 'Wrong password, please try again.'});
         });
-};
+}
 
 exports.uploadImage = (request, response) => { // using busboy from npm 
 
@@ -177,7 +177,7 @@ exports.uploadImage = (request, response) => { // using busboy from npm
     });
 
     busBoy.end(request.rawBody);
-};
+}
 
 exports.addUserDetails = (request, response) => {
 
@@ -189,7 +189,7 @@ exports.addUserDetails = (request, response) => {
             console.error(e);
             return response.status(500).json({error: e.code});
         });
-};
+}
 
 exports.getAuthenticatedUser = (request, response) => {
 
@@ -228,7 +228,7 @@ exports.getAuthenticatedUser = (request, response) => {
             return response.status(500).json({ error: e.code });
         });
 
-};
+}
 
 exports.getPost = (request, response) => {
 
@@ -256,7 +256,7 @@ exports.getPost = (request, response) => {
             console.error(e);
             response.status(500).json({ error: e.code });
         });
-};
+}
 
 exports.commentPost = (request, response) => {
 
@@ -292,7 +292,7 @@ exports.commentPost = (request, response) => {
             console.error(e);
             response.status(500).json({error: 'Something went wrong here: ' + e.code});
         });
-};
+}
 
 exports.likePost = (request, response) => {
     const likeDocument = db.collection('likes').where('userHandle', '==', request.user.handle)
@@ -336,7 +336,7 @@ exports.likePost = (request, response) => {
             console.error(e);
             response.status(500).json({ error: e.code});
         });
-};
+}
 
 exports.unlikePost = (request, response) => {
 
@@ -379,7 +379,7 @@ exports.unlikePost = (request, response) => {
             console.error(e);
             response.status(500).json({ error: e.code});
         });
-};
+}
 
 exports.deletePost = (request, response) => {
 
@@ -404,7 +404,7 @@ exports.deletePost = (request, response) => {
         console.error(e);
         return response.status(500).json({ error: e.code});
     });
-};
+}
 
 exports.getUserDetails = (request, response) => {
 
@@ -442,7 +442,7 @@ exports.getUserDetails = (request, response) => {
             console.error(e);
             return response.status(500).json({ error: e.code});
         });
-};
+}
 
 exports.markNotificationsRead = (request, response) => {
 
@@ -461,4 +461,4 @@ exports.markNotificationsRead = (request, response) => {
 			console.error(e);
 			return response.status(500).json({ error: e.code});
 		});
-};
+}

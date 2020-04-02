@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import tokenDecoder from 'jwt-decode';
 
 import { Provider } from 'react-redux';
@@ -15,11 +15,10 @@ import SigninPage from './pages/signin';
 
 import Navbar from './components/navbar';
 import AuthRoute from './exports/authRoute';
-import t from './exports/theme'
 import axios from 'axios';
 
+import theme from './exports/theme';
 
-const theme = createMuiTheme(t);
 
 const token = localStorage.FBAuthToken;
 if(token) {

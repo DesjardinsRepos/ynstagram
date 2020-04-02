@@ -44,7 +44,7 @@ exports.commentNotification = functions.region('europe-west1').firestore.documen
 				}
 			})
 			.catch(e => console.error(e));
-	});
+	})
 	
 exports.onProfilePictureChange = functions.region('europe-west1').firestore.document('/users/{userId}')
 	.onUpdate((change) => {
@@ -60,12 +60,12 @@ exports.onProfilePictureChange = functions.region('europe-west1').firestore.docu
 					})
 					return batch.commit();
 				});
-			// INCLUDE COMMENTS
+			// delete old picture
 
 		} else {
 			return true;
 		}
-	});
+	})
 
 exports.onPostDelete = functions.region('europe-west1').firestore.document('/posts/{postId}')
 	.onDelete((snapshot, context) => {
@@ -95,6 +95,6 @@ exports.onPostDelete = functions.region('europe-west1').firestore.document('/pos
 			.catch(e => {
 				console.error(e);
 			});
-	});
+	})
 
-// 7:20:00
+// 7:54:00

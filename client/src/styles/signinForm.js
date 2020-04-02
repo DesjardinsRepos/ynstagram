@@ -1,6 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
-import t from '../exports/theme'
-const theme = createMuiTheme(t); //unite theme later
+import theme from '../exports/theme';
 
 export default {
     container: {

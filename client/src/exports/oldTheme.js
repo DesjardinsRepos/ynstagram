@@ -1,7 +1,7 @@
-import { pink, purple } from '@material-ui/core/colors'
-import { createMuiTheme } from "@material-ui/core";
 
-export default createMuiTheme({
+import { pink, purple } from '@material-ui/core/colors'
+
+export default {
     palette: {
 		primary: pink,
 		secondary: purple
@@ -9,4 +9,4 @@ export default createMuiTheme({
 	typography: {
 		useNextVariants: true
 	}
-}); 
+}
