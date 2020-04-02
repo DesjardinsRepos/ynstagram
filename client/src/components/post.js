@@ -14,6 +14,7 @@ import HearthEmpty from '@material-ui/icons/FavoriteBorder';
 import { likePost, unlikePost } from '../redux/actions/dataActions';
 import styles from '../styles/post';
 import WrappedButton from './wrappedButton';
+import DeletePost from './deletePost';
 
 class post extends Component {
 
@@ -45,7 +46,10 @@ class post extends Component {
                      commentCount
                  }, 
                  user: {
-                     authenticated
+                     authenticated,
+                     credentials: { 
+                         handle
+                     }
                  }
               } = this.props  
 
@@ -60,13 +64,16 @@ class post extends Component {
                 <WrappedButton title="remove Like" onClick={this.unlikePost}>
                     <HearthFilled color="primary"/>
                 </WrappedButton>
-
             ) : (
                 <WrappedButton title="Like" onClick={this.likePost}>
                     <HearthEmpty color="primary"/>
                 </WrappedButton>
             )
         )
+
+        const deleteButton = authenticated && userHandle === handle ? (
+            <DeletePost postId={postId}/>
+        ) : (<div></div>)
 
         return (
             <Card className={classes.card}>
@@ -75,17 +82,17 @@ class post extends Component {
 
                 <CardContent className={classes.content}>
                     <Typography variant="h5" component={Link} to={`/users/${userHandle}`} color="primary"> {userHandle} </Typography>
+                    {deleteButton}
                     <Typography variant="body2" color="textSecondary"> {dayjs(createdAt).fromNow()} </Typography>
 					<Typography variant="body1">{body}</Typography>
 
                     {likeButton}
                     <span>{likeCount} Likes </span>
+
                     <WrappedButton title="comments">
                         <ChatIcon color="primary"/>
                     </WrappedButton>
-                    <span>
-                        {commentCount} comments
-                    </span>
+                    <span>{commentCount} comments</span>
                 </CardContent>
 
             </Card>
