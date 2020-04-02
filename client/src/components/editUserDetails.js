@@ -4,11 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { connect } from 'react-redux';
 import { editUserDetails } from '../redux/actions/userActions';
-import { Tooltip, IconButton, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 import EditIcon from '@material-ui/icons/Edit';
 
 import styles from '../styles/userProfile';
+import WrappedButton from './wrappedButton';
 
 class EditUserDetails extends Component {
 
@@ -63,14 +64,15 @@ class EditUserDetails extends Component {
         const { classes } = this.props;
 
         return (
-            <Fragment>
-                <Tooltip title="Edit details" placement="top">
-                    <IconButton onClick={this.doOpen} className={classes.button}>
+            <Fragment>  
+                <WrappedButton title="Edit details" onClick={this.doOpen} btnClassName={classes.button}>
                         <EditIcon color="primary"/>
-                    </IconButton>
-                </Tooltip>
+                </WrappedButton>
+
                 <Dialog open={this.state.open} onClose={this.onClose} fullWidth maxWidth="sm">
+
                     <DialogTitle>Edit your profile Information</DialogTitle>
+                    
                     <DialogContent>
                         <form>
                             <TextField name="bio" type="text" label="bio" multiline rows="3" placeholder="Write something about yourself" 
@@ -83,8 +85,9 @@ class EditUserDetails extends Component {
                             className={classes.textField} value={this.state.location} fullWidth onChange={this.onChange}/>
                         </form>
                     </DialogContent>
+
                     <DialogActions> 
-                        <Button onClick={this.onClose} color="primary">cancel</Button>
+                        <Button onClick={this.doClose} color="primary">cancel</Button>
                         <Button onClick={this.doSubmit} color="primary">submit</Button>
                     </DialogActions>
                 </Dialog>

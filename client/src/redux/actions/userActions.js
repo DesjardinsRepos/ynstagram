@@ -6,10 +6,10 @@ export const loginUser = (userData, history) => dispatch => {
     dispatch({ type: LOADING_UI });
 
     axios.post('/signin', userData)
-        .then(result => {
+        .then(response => {
 
-            localStorage.setItem('FBAuthToken', `Bearer ${result.data.token}`);
-            axios.defaults.headers.common['Autorization'] = `Bearer ${result.data.token}`; // add token for every axios req in future
+            localStorage.setItem('FBAuthToken', `Bearer ${response.data.token}`);
+            axios.defaults.headers.common['Autorization'] = `Bearer ${response.data.token}`; // add token for every axios req in future
             dispatch(getUserData());
             dispatch({ type: CLEAR_ERRORS });
 
@@ -28,10 +28,10 @@ export const signupUser = (userData, history) => dispatch => {
     dispatch({ type: LOADING_UI });
 
     axios.post('/signup', userData)
-        .then(result => {
+        .then(response => {
                 //setAuthHeader
-            localStorage.setItem('FBAuthToken', `Bearer ${result.data.token}`);
-            axios.defaults.headers.common['Autorization'] = `Bearer ${result.data.token}`; // add token for every axios req in future
+            localStorage.setItem('FBAuthToken', `Bearer ${response.data.token}`);
+            axios.defaults.headers.common['Autorization'] = `Bearer ${response.data.token}`; // add token for every axios req in future
             dispatch(getUserData());
 
             dispatch({ type: CLEAR_ERRORS });
@@ -56,10 +56,10 @@ export const getUserData = () => dispatch => {
     dispatch({ type: LOADING_USER });
 
     axios.get('/user')
-        .then(result => {
+        .then(response => {
             dispatch({
                 type: SET_USER,
-                payload: result.data
+                payload: response.data
             })
         })
         .catch(e => console.log(e));

@@ -22,17 +22,17 @@ class Navbar extends Component {
                     { authenticated ? (
                         <Fragment>
                             <WrappedButton title="create a Post">
-                                <AddIcon color="primary"/>
+                                <AddIcon className="nav-icon"/>
                             </WrappedButton>
 
                             <Link to="/">
                                 <WrappedButton title="Home">
-                                    <HomeIcon color="primary"/>
+                                    <HomeIcon className="nav-icon"/>
                                 </WrappedButton>
                             </Link>
 
                             <WrappedButton title="Notifications">
-                                <NotificationIcon color="primary"/>
+                                <NotificationIcon className="nav-icon"/>
                             </WrappedButton>
                         </Fragment>
                     ) : (
@@ -41,13 +41,8 @@ class Navbar extends Component {
                             <Button color="inherit" component={Link} to="/"> home </Button>
                             <Button color="inherit" component={Link} to="signup"> signup </Button>
                         </Fragment>
-
                     )}
-
-
-
-
-
+                    
                 </Toolbar>
             </AppBar>
         )

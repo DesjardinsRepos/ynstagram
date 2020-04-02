@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Typography, Paper, IconButton, Tooltip } from '@material-ui/core';
+import { Button, Typography, Paper } from '@material-ui/core';
 import MuiLink from '@material-ui/core/Link';
 import LocationIcon from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
@@ -17,6 +17,7 @@ import { logoutUser, uploadImage } from '../redux/actions/userActions';
 
 import styles from '../styles/userProfile';
 import EditUserDetails from './editUserDetails';
+import WrappedButton from './wrappedButton';
 
 class userProfile extends Component {
 
@@ -48,7 +49,8 @@ class userProfile extends Component {
             }
         } = this.props;
 
-        let Profile = !loading ? (authenticated ? (
+        return !loading ? (authenticated ? (
+
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
 
@@ -57,16 +59,13 @@ class userProfile extends Component {
                     </div><hr/>
 
                     <input type="file" id="imageInput" hidden="hidden" onChange={this.onImageChange}/>
-                    <Tooltip title="Edit profile picture" placement="top">
-                        <IconButton onClick={this.imageButtonClicked} className="button">
-                            <EditIcon color="primary"/>
-                        </IconButton>
-                    </Tooltip>
-
+                    <WrappedButton title="Edit profile picture" onClick={this.imageButtonClicked} btnClassName="button">
+                        <EditIcon color="primary"/>
+                    </WrappedButton>
                     <div className="profile-details">
 
                         <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant='h5'>
-                            @{handle}
+                            {handle}
                         </MuiLink><hr/>
 
                         {bio && <Typography variant="body2">{bio}</Typography>}<hr/>
@@ -92,17 +91,16 @@ class userProfile extends Component {
                         <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
                     </div>
 
-                    <Tooltip title="logout" placement="top">
-                        <IconButton onClick={this.doLogout}>
-                            <KeyboardIcon color="primary"/>
-                        </IconButton>
-                    </Tooltip>
+                    <WrappedButton title="logout" onClick={this.doLogout}>
+                        <KeyboardIcon color="primary"/>
+                    </WrappedButton>
 
                     <EditUserDetails/>
                 </div>
             </Paper>
 
         ) : (
+
             <Paper className={classes.paper}>
                 <Typography variant="body2" align="center">
                     No Profile found, please log in again.
@@ -118,10 +116,6 @@ class userProfile extends Component {
             </Paper>
 
         )) : (<p>loading...</p>)
-
-
-
-        return Profile;
     }
 }
 

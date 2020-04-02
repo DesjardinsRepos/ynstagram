@@ -1,29 +1,26 @@
 import axios from 'axios';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { Grid } from '@material-ui/core';
 
 import Post from '../components/post';
 import UserProfile from '../components/userProfile';
+import { getPosts } from '../redux/actions/dataActions';
 
 
 class LandingPage extends Component {
 
-    state = { posts: null }
-
     componentDidMount() {
-        axios.get('/posts')
-            .then(response => {
-                this.setState({
-                    posts: response.data
-                });
-            })
-            .catch(e => console.log(e));
+        this.props.getPosts();
     }
 
     render() {
+        const { posts, loading } = this.props.data;
 
-        let recentPosts = this.state.posts ? (
-            this.state.posts.map(post => <Post post={post} key={post.postId}/>)
+        let recentPosts = !loading ? (
+            posts.map(post => <Post post={post} key={post.postId}/>)
             ) : ( <p> loading...</p> );
 
         return (
@@ -39,4 +36,13 @@ class LandingPage extends Component {
     }
 }
 
-export default LandingPage
+LandingPage.propTypes = {
+    getPosts: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+}
+
+const mapState = state => ({
+    data: state.data
+})
+
+export default connect(mapState, { getPosts })(LandingPage)
