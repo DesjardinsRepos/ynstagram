@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Button, TextField, Dialog,  DialogContent, DialogTitle, CircularProgress } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
+import { Add as AddIcon, Close as CloseIcon } from '@material-ui/icons';
 
 import { connect } from 'react-redux';
 import { createPost, clearErrors } from '../redux/actions/dataActions';
@@ -92,6 +91,5 @@ postButton.propTypes = {
 const mapState = state => ({
     ui: state.ui
 })
-
 
 export default connect(mapState, { createPost, clearErrors })(withStyles(styles)(postButton));

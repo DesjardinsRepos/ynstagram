@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { AppBar, Toolbar, Button } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import NotificationIcon from '@material-ui/icons/Notifications';
+import { Notifications as NotificationIcon } from '@material-ui/icons';
 
 import WrappedButton from './wrappedButton';
 import PostButton from './postButton';

@@ -7,69 +7,27 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Typography, CardContent, CardMedia, Card } from '@material-ui/core';
-import ChatIcon from '@material-ui/icons/Chat';
-import HearthFilled from '@material-ui/icons/Favorite';
-import HearthEmpty from '@material-ui/icons/FavoriteBorder';
+import { Chat as ChatIcon }from '@material-ui/icons';
 
-import { likePost, unlikePost } from '../redux/actions/dataActions';
 import styles from '../styles/post';
 import WrappedButton from './wrappedButton';
 import DeletePost from './deletePost';
+import PostDialog from './postDialog';
+import LikeButton from './LikeButton';
 
 class post extends Component {
-
-    likedPost = () => {
-        if(this.props.user.likes && this.props.user.likes.find(like => like.postId === this.props.post.postId))
-            return true;
-        else return false;
-    }
-
-    likePost = () => {
-        this.props.likePost(this.props.post.postId);
-    }
-
-    unlikePost = () => {
-        this.props.unlikePost(this.props.post.postId);
-    }
 
     render() {
         dayjs.extend(relativeTime); // add plugin
 
-        const {  classes, 
-                 post : { 
-                     body, 
-                     createdAt,  
-                     userImage, 
-                     userHandle, 
-                     postId, 
-                     likeCount, 
-                     commentCount
-                 }, 
-                 user: {
-                     authenticated,
-                     credentials: { 
-                         handle
-                     }
-                 }
-              } = this.props  
-
-        const likeButton = !authenticated ? (
-            <WrappedButton title="Like">
-                <Link to="/signin">
-                    <HearthEmpty color="primary"/>
-                </Link>
-            </WrappedButton>
-        ) : (
-            this.likedPost() ? (
-                <WrappedButton title="remove Like" onClick={this.unlikePost}>
-                    <HearthFilled color="primary"/>
-                </WrappedButton>
-            ) : (
-                <WrappedButton title="Like" onClick={this.likePost}>
-                    <HearthEmpty color="primary"/>
-                </WrappedButton>
-            )
-        )
+        const { 
+            classes, 
+            post : { body, createdAt, userImage, userHandle, postId, likeCount, commentCount }, 
+            user: { 
+                authenticated, 
+                credentials: { handle }
+            }
+        } = this.props  
 
         const deleteButton = authenticated && userHandle === handle ? (
             <DeletePost postId={postId}/>
@@ -86,13 +44,15 @@ class post extends Component {
                     <Typography variant="body2" color="textSecondary"> {dayjs(createdAt).fromNow()} </Typography>
 					<Typography variant="body1">{body}</Typography>
 
-                    {likeButton}
+                    <LikeButton postId={postId}/>
                     <span>{likeCount} Likes </span>
 
                     <WrappedButton title="comments">
                         <ChatIcon color="primary"/>
                     </WrappedButton>
                     <span>{commentCount} comments</span>
+
+                    <PostDialog postId={postId} userHandle={userHandle}/>
                 </CardContent>
 
             </Card>
@@ -100,8 +60,6 @@ class post extends Component {
     }
 }
 post.propTypes = {
-    likePost: PropTypes.func.isRequired,
-    unlikePost: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
@@ -112,9 +70,5 @@ const mapState = state => ({
     user: state.user
 })
 
-const mapActions = {
-    likePost,
-    unlikePost
-}
 
-export default connect(mapState, mapActions)(withStyles(styles)(post));
+export default connect(mapState)(withStyles(styles)(post));

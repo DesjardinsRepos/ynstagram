@@ -4,13 +4,8 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Typography, Paper } from '@material-ui/core';
-import MuiLink from '@material-ui/core/Link';
-import LocationIcon from '@material-ui/icons/LocationOn';
-import LinkIcon from '@material-ui/icons/Link';
-import CalendarIcon from '@material-ui/icons/CalendarToday';
-import EditIcon from '@material-ui/icons/Edit';
-import KeyboardIcon from '@material-ui/icons/ExitToApp';
+import { Button, Typography, Paper, Link as MuiLink } from '@material-ui/core';
+import { LocationOn as LocationIcon, Link as LinkIcon, CalendarToday as CalendarIcon, Edit as EditIcon, ExitToApp as ExitIcon } from '@material-ui/icons';
 
 import { connect } from 'react-redux';
 import { logoutUser, uploadImage } from '../redux/actions/userActions';
@@ -92,7 +87,7 @@ class userProfile extends Component {
                     </div>
 
                     <WrappedButton title="logout" onClick={this.doLogout}>
-                        <KeyboardIcon color="primary"/>
+                        <ExitIcon color="primary"/>
                     </WrappedButton>
 
                     <EditUserDetails/>

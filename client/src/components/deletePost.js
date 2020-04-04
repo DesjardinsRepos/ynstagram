@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import { DeleteOutline } from '@material-ui/icons';
 
 import WrappedButton from './wrappedButton';
 import { deletePost } from '../redux/actions/dataActions';

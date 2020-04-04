@@ -97,4 +97,4 @@ exports.onPostDelete = functions.region('europe-west1').firestore.document('/pos
 			});
 	})
 
-// 9:25:00
+// 9:50:00
