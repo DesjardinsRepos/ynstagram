@@ -1,10 +1,12 @@
-import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST } from '../types';
+import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST, CREATE_POST } from '../types';
 
 const initialState = {
     posts: [],
     post: {},
     loading: false
 };
+
+var index = null;
 
 export default function(state = initialState, action) {
     switch(action.type) {
@@ -24,7 +26,7 @@ export default function(state = initialState, action) {
 
         case LIKE_POST:
         case UNLIKE_POST:
-            let index = state.posts.findIndex((post) => post.postId === action.payload.postId); // unequal?
+            index = state.posts.findIndex((post) => post.postId === action.payload.postId); // unequal?
             state.posts[index] = action.payload;
             return { ...state };
 
@@ -33,6 +35,15 @@ export default function(state = initialState, action) {
             state.posts.splice(index, 1);
             return {
                 ...state
+            }
+
+        case CREATE_POST:
+            return {
+                ...state,
+                posts: [
+                    action.payload, // add new post to postarray
+                    ...state.posts
+                ]
             }
 
         default:

@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { AppBar, Toolbar, Button } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationIcon from '@material-ui/icons/Notifications';
 
 import WrappedButton from './wrappedButton';
+import PostButton from './postButton';
 
 
 class Navbar extends Component {
@@ -21,9 +21,7 @@ class Navbar extends Component {
                 <Toolbar className="nav-container">
                     { authenticated ? (
                         <Fragment>
-                            <WrappedButton title="create a Post">
-                                <AddIcon className="nav-icon"/>
-                            </WrappedButton>
+                            <PostButton/>
 
                             <Link to="/">
                                 <WrappedButton title="Home">

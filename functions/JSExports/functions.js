@@ -24,26 +24,31 @@ exports.getPosts = (request, response) => { //"posts" is url showed finally
 
 exports.doPost = (request, response) => {
 
-    const newPost = {
-        body: request.body.body, 
-        userHandle: request.user.handle, 
-        userImage: request.user.imageUrl,
-        createdAt: new Date().toISOString(), 
-        likeCount: 0,
-        commentCount: 0
-    };
+    if(request.body.body.trim() === '') {
+        return response.status(400).json({ body: 'This must not be empty.' });
 
-    db.collection('posts').add(newPost)
-        .then(doc => {
+    } else {
+        const newPost = {
+            body: request.body.body, 
+            userHandle: request.user.handle, 
+            userImage: request.user.imageUrl,
+            createdAt: new Date().toISOString(), 
+            likeCount: 0,
+            commentCount: 0
+        };
 
-            const responsePost = newPost;
-            responsePost.postId = doc.id;
-            response.json(responsePost);
-        })
-        .catch(e => {
-            response.status(500).json({error: 'something went wrong'})
-            console.error(e);
-        });
+        db.collection('posts').add(newPost)
+            .then(doc => {
+
+                const responsePost = newPost;
+                responsePost.postId = doc.id;
+                response.json(responsePost);
+            })
+            .catch(e => {
+                response.status(500).json({error: 'something went wrong'})
+                console.error(e);
+            });
+    }
 }
 
 exports.signUp = (request, response) => {
