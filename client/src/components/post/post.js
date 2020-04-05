@@ -9,11 +9,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { Typography, CardContent, CardMedia, Card } from '@material-ui/core';
 import { Chat as ChatIcon }from '@material-ui/icons';
 
-import styles from '../styles/post';
-import WrappedButton from './wrappedButton';
+import styles from '../../styles/post';
+import WrappedButton from '../wrappedButton';
 import DeletePost from './deletePost';
 import PostDialog from './postDialog';
-import LikeButton from './LikeButton';
+import LikeButton from './likeButton';
 
 class post extends Component {
 

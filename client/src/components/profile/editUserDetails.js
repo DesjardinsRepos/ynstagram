@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
-import { editUserDetails } from '../redux/actions/userActions';
 
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Edit as EditIcon } from '@material-ui/icons';
 
-import styles from '../styles/userProfile';
-import WrappedButton from './wrappedButton';
+import styles from '../../styles/userProfile';
+import WrappedButton from '../wrappedButton';
+import { editUserDetails } from '../../redux/actions/userActions';
 
 class EditUserDetails extends Component {
 

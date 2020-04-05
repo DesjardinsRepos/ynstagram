@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 import { DeleteOutline } from '@material-ui/icons';
 
-import WrappedButton from './wrappedButton';
-import { deletePost } from '../redux/actions/dataActions';
+import WrappedButton from '../wrappedButton';
+import { deletePost } from '../../redux/actions/dataActions';
 
 const styles = {
     deleteButton: {

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import { Grid } from '@material-ui/core';
 
-import Post from '../components/post';
-import UserProfile from '../components/userProfile';
+import Post from '../components/post/post';
+import UserProfile from '../components/profile/userProfile';
 import { getPosts } from '../redux/actions/dataActions';
 
 
@@ -23,7 +23,7 @@ class LandingPage extends Component {
             ) : ( <p> loading...</p> );
 
         return (
-            <Grid container spacing={1}>
+            <Grid container spacing={1} direction="row">
                 <Grid item sm={8} xs={12}>
                     {recentPosts}
                 </Grid>

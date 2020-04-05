@@ -8,11 +8,13 @@ import { Grid, Typography, Button, TextField, Dialog,  DialogContent, DialogTitl
 import { Close as CloseIcon, ExpandMore as ExpandIcon, Chat as ChatIcon } from '@material-ui/icons';
 
 import { connect } from 'react-redux';
-import { getPost } from '../redux/actions/dataActions';
+import { getPost } from '../../redux/actions/dataActions';
 
-import WrappedButton from './wrappedButton';
-import styles from '../styles/postDialog';
-import LikeButton from './LikeButton';
+import WrappedButton from '../wrappedButton';
+import styles from '../../styles/postDialog';
+import LikeButton from './likeButton';
+import Comments from './comments';
+import CommentForm from './commentForm';
 
 class PostDialog extends Component {
 
@@ -32,7 +34,7 @@ class PostDialog extends Component {
     render() {
         const {
             classes, 
-            post: { postId,body, createdAt, likeCount, commentCount, userImage, userHandle },
+            post: { postId,body, createdAt, likeCount, commentCount, userImage, userHandle, comments },
             ui: { loading }
         } = this.props;
 
@@ -63,11 +65,15 @@ class PostDialog extends Component {
                         <span>{commentCount} comments</span>
 
                     </Grid>
-                </Grid>
+                    <Typography variant="body1" className={classes.body}>
+                        {body}
+                    </Typography>
 
-                <Typography variant="body1" className={classes.body}>
-                    {body}
-                </Typography>
+                    <CommentForm postId={postId}/>
+                </Grid>
+                
+                <Comments comments={comments}/>
+
             </Fragment>
 
         ) : ( 

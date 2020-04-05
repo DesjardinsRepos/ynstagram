@@ -1,5 +1,5 @@
 import { SET_POSTS, SET_POST, LOADING_DATA, LOADING_UI, STOP_LOADING_UI, LIKE_POST, UNLIKE_POST, 
-         DELETE_POST, SET_ERRORS, CLEAR_ERRORS, CREATE_POST } from '../types';
+         DELETE_POST, SET_ERRORS, CLEAR_ERRORS, CREATE_POST, CREATE_COMMENT } from '../types';
 import axios from 'axios';
 
 export const getPosts = () => dispatch => {
@@ -21,60 +21,6 @@ export const getPosts = () => dispatch => {
         });
 }
 
-export const likePost = postId => dispatch => {
-    axios.get(`/post/${postId}/like`)
-        .then(response => {
-            dispatch({
-                type: LIKE_POST,
-                payload: response.data
-            });
-        })
-        .catch(e => console.log(e));
-}
-
-export const unlikePost = postId => dispatch => {
-    axios.get(`/post/${postId}/unlike`)
-        .then(response => {
-            dispatch({
-                type: UNLIKE_POST,
-                payload: response.data
-            });
-        })
-        .catch(e => console.log(e));
-}
-
-export const deletePost = postId => dispatch => {
-    axios.delete(`/post/${postId}`)
-        .then(() => {
-            dispatch({ type: DELETE_POST, payload: postId });
-        })
-        .catch(e => console.log(e));
-}
-
-export const createPost = newPost => dispatch => {
-
-    dispatch({ type: LOADING_UI });
-
-    axios.post('/post', newPost)
-        .then(response => {
-            dispatch({
-                type: CREATE_POST,
-                payload: response.data
-            });
-            dispatch({ type: CLEAR_ERRORS });
-        })
-        .catch(e => {
-            dispatch({ 
-                type: SET_ERRORS,
-                payload: e.response.data 
-            });
-        });
-}
-
-export const clearErrors = () => dispatch => {
-    dispatch({ type: CLEAR_ERRORS });
-}
-
 export const getPost = postId => dispatch => {
 
     dispatch({ type: LOADING_UI });
@@ -89,3 +35,83 @@ export const getPost = postId => dispatch => {
         })
         .catch(e => console.log(e));
 }
+
+export const likePost = postId => dispatch => {
+
+    axios.get(`/post/${postId}/like`)
+        .then(response => {
+
+            dispatch({
+                type: LIKE_POST,
+                payload: response.data
+            });
+        })
+        .catch(e => console.log(e));
+}
+
+export const unlikePost = postId => dispatch => {
+
+    axios.get(`/post/${postId}/unlike`)
+        .then(response => {
+            dispatch({
+                type: UNLIKE_POST,
+                payload: response.data
+            });
+        })
+        .catch(e => console.log(e));
+}
+
+export const deletePost = postId => dispatch => {
+
+    axios.delete(`/post/${postId}`)
+        .then(() => {
+            dispatch({ type: DELETE_POST, payload: postId });
+        })
+        .catch(e => console.log(e));
+}
+
+export const createPost = newPost => dispatch => {
+
+    dispatch({ type: LOADING_UI });
+
+    axios.post('/post', newPost)
+        .then(response => {
+
+            dispatch({
+                type: CREATE_POST,
+                payload: response.data
+            });
+            dispatch(clearErrors());
+        })
+        .catch(e => {
+            dispatch({ 
+                type: SET_ERRORS,
+                payload: e.response.data 
+            });
+        });
+}
+
+export const createComment = (postId, commentData) => dispatch => {
+
+    axios.post(`/post/${postId}/comment`, commentData)
+        .then(response => {
+
+            dispatch({
+                type: CREATE_COMMENT,
+                payload: response.data
+            });
+            dispatch(clearErrors());
+        })
+        .catch(e => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: e.response.data
+            });
+        });
+}
+
+export const clearErrors = () => dispatch => {
+    dispatch({ type: CLEAR_ERRORS });
+}
+
+

@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import WrappedButton from './wrappedButton';
+import WrappedButton from '../wrappedButton';
 import { Favorite as HearthFilled, FavoriteBorder as HearthEmpty }from '@material-ui/icons';
-import { likePost, unlikePost } from '../redux/actions/dataActions';
+import { likePost, unlikePost } from '../../redux/actions/dataActions';
 
 export class LikeButton extends Component {
 

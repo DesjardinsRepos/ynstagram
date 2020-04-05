@@ -5,7 +5,8 @@ export default {
 		marginBottom: 20
 	},
 	image: {
-		minWidth: 200
+		minWidth: 200,
+		objectFit: 'cover'
 	},
 	content: {
 		padding: 25, 

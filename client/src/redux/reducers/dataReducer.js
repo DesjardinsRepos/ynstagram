@@ -1,4 +1,4 @@
-import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST, CREATE_POST, SET_POST } from '../types';
+import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST, CREATE_POST, CREATE_COMMENT, SET_POST } from '../types';
 
 const initialState = {
     posts: [],
@@ -32,7 +32,7 @@ export default function(state = initialState, action) {
 
         case LIKE_POST:
         case UNLIKE_POST:
-            index = state.posts.findIndex((post) => post.postId === action.payload.postId); // unequal?
+            index = state.posts.findIndex((post) => post.postId === action.payload.postId);
             state.posts[index] = action.payload;
 
             if(state.post.postId === action.payload.postId) {
@@ -54,6 +54,15 @@ export default function(state = initialState, action) {
                     action.payload, // add new post to postarray
                     ...state.posts
                 ]
+            };
+
+        case CREATE_COMMENT:
+            return {
+                ...state,
+                post: {
+                    ...state.post,
+                    comments: [action.payload, ...state.post.comments]
+                }
             };
 
         default:

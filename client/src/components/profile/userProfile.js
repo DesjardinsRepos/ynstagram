@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 
@@ -7,12 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Typography, Paper, Link as MuiLink } from '@material-ui/core';
 import { LocationOn as LocationIcon, Link as LinkIcon, CalendarToday as CalendarIcon, Edit as EditIcon, ExitToApp as ExitIcon } from '@material-ui/icons';
 
-import { connect } from 'react-redux';
-import { logoutUser, uploadImage } from '../redux/actions/userActions';
-
-import styles from '../styles/userProfile';
+import { logoutUser, uploadImage } from '../../redux/actions/userActions';
+import styles from '../../styles/userProfile';
 import EditUserDetails from './editUserDetails';
-import WrappedButton from './wrappedButton';
+import WrappedButton from '../wrappedButton';
 
 class userProfile extends Component {
 
