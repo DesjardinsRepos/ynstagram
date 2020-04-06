@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 import { AppBar, Toolbar, Button } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import { Notifications as NotificationIcon } from '@material-ui/icons';
 
-import WrappedButton from './wrappedButton';
+import { Notifications } from './notifications';
 import PostButton from './postButton';
+import WrappedButton from './wrappedButton';
 
 
 class Navbar extends Component {
@@ -29,9 +29,7 @@ class Navbar extends Component {
                                 </WrappedButton>
                             </Link>
 
-                            <WrappedButton title="Notifications">
-                                <NotificationIcon className="nav-icon"/>
-                            </WrappedButton>
+                            <Notifications/>
                         </Fragment>
                     ) : (
                         <Fragment>

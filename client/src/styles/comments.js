@@ -11,6 +11,7 @@ export default {
     commentImage: {
         maxWidth: '100%',
         height: 100,
+        width: 100,
         objectFit: 'cover', // makes 1:1 ratio
         borderRadius: '50%'
     },

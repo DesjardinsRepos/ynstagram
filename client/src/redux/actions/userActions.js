@@ -10,7 +10,7 @@ export const loginUser = (userData, history) => dispatch => {
 
             localStorage.setItem('FBAuthToken', `Bearer ${response.data.token}`);
             axios.defaults.headers.common['Autorization'] = `Bearer ${response.data.token}`; // add token for every axios req in future
-            dispatch(getUserData());
+            dispatch(getOwnUserData());
             dispatch({ type: CLEAR_ERRORS });
 
             history.push('/'); //redirect to '/'
@@ -32,7 +32,7 @@ export const signupUser = (userData, history) => dispatch => {
                 //setAuthHeader
             localStorage.setItem('FBAuthToken', `Bearer ${response.data.token}`);
             axios.defaults.headers.common['Autorization'] = `Bearer ${response.data.token}`; // add token for every axios req in future
-            dispatch(getUserData());
+            dispatch(getOwnUserData());
 
             dispatch({ type: CLEAR_ERRORS });
             history.push('/'); //redirect to '/'
@@ -51,7 +51,7 @@ export const logoutUser = () => dispatch => {
     dispatch({ type: SET_UNAUTHENTICATED });
 }
 
-export const getUserData = () => dispatch => {
+export const getOwnUserData = () => dispatch => {
     
     dispatch({ type: LOADING_USER });
 
@@ -71,7 +71,7 @@ export const uploadImage = data => dispatch => {
 
     axios.post('/user/image', data)
         .then(response => {
-            dispatch(getUserData());
+            dispatch(getOwnUserData());
         })
         .catch(e => console.log(e));
 }
@@ -82,7 +82,7 @@ export const editUserDetails = data => dispatch => {
 
     axios.post('/user', data)
         .then(() => {
-            dispatch(getUserData());
+            dispatch(getOwnUserData());
         })
         .catch(e => console.log(e));
 }

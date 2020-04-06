@@ -8,7 +8,7 @@ import { Grid, Typography, Button, TextField, Dialog,  DialogContent, DialogTitl
 import { Close as CloseIcon, ExpandMore as ExpandIcon, Chat as ChatIcon } from '@material-ui/icons';
 
 import { connect } from 'react-redux';
-import { getPost } from '../../redux/actions/dataActions';
+import { getPost, clearErrors } from '../../redux/actions/dataActions';
 
 import WrappedButton from '../wrappedButton';
 import styles from '../../styles/postDialog';
@@ -19,16 +19,35 @@ import CommentForm from './commentForm';
 class PostDialog extends Component {
 
     state = {
-        open: false
+        open: false,
+        oldPath: '', 
+        newPath: ''
+    }
+
+    componentDidMount() {
+        if(this.props.openDialog) {
+            this.doOpen();
+        }
     }
 
     doOpen = () => {
-        this.setState({ open: true });
+
+        const { userHandle, postId } = this.props;
+
+        let oldPath = window.location.pathname, newPath = `/users/${userHandle}/post/${postId}`;
+        if(oldPath === newPath) oldPath = `/users/${userHandle}`;
+
+        window.history.pushState(null, null, newPath);
+
+        this.setState({ open: true, oldPath, newPath });
         this.props.getPost(this.props.postId);
     }
 
     doClose = () => {
+
+        window.history.pushState(null, null, this.state.oldPath);
         this.setState({ open: false });
+        this.props.clearErrors();
     }
 
     render() {
@@ -107,11 +126,12 @@ class PostDialog extends Component {
 
 PostDialog.propTypes = {
     getPost: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
     postId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
     post: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired
-}
+};
 
 const mapState = state => ({
     post: state.data.post,
@@ -119,7 +139,8 @@ const mapState = state => ({
 });
 
 const mapActions = {
-    getPost
+    getPost,
+    clearErrors
 };
 
 export default connect(mapState, mapActions)(withStyles(styles)(PostDialog));

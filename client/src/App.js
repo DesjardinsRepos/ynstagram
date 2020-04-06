@@ -7,11 +7,12 @@ import tokenDecoder from 'jwt-decode';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
-import { logoutUser, getUserData } from './redux/actions/userActions';
+import { logoutUser, getOwnUserData } from './redux/actions/userActions';
 
 import LandingPage from './pages/landingPage';
 import SignupPage from './pages/signup';
 import SigninPage from './pages/signin';
+import User from './pages/user';
 
 import Navbar from './components/navbar';
 import AuthRoute from './exports/authRoute';
@@ -29,7 +30,7 @@ if(token) {
 	} else {
 		store.dispatch({ type: SET_AUTHENTICATED });
 		axios.defaults.headers.common['Authorization'] = token;
-		store.dispatch(getUserData());
+		store.dispatch(getOwnUserData());
 	}
 } 
 
@@ -45,7 +46,9 @@ function App() {
       				<div className="container">
         				<Switch>
             				<Route exact path="/" component={LandingPage}/>
-            				<AuthRoute exact path="/signin" component={SigninPage}/> /* make invisible if logged in */
+							<Route exact path="/users/:handle" component={User}/>
+							<Route exact path="/users/:handle/post/:postId" component={User}/>
+            				<AuthRoute exact path="/signin" component={SigninPage}/> /* make icons invisible if logged in */
             				<AuthRoute exact path="/signup" component={SignupPage}/>
         				</Switch>
       				</div>

@@ -52,7 +52,7 @@ class post extends Component {
                     </WrappedButton>
                     <span>{commentCount} comments</span>
 
-                    <PostDialog postId={postId} userHandle={userHandle}/>
+                    <PostDialog postId={postId} userHandle={userHandle} openDialog={this.props.openDialog}/>
                 </CardContent>
 
             </Card>
@@ -62,7 +62,8 @@ class post extends Component {
 post.propTypes = {
     user: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    openDialog: PropTypes.bool
 }
 
 

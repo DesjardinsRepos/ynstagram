@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid, Button, TextField } from '@material-ui/core';
 
 import { createComment } from '../../redux/actions/dataActions';
+import { clearErrors } from '../../redux/actions/dataActions';
 
 const styles = {};
 
@@ -20,6 +21,8 @@ class CommentForm extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.ui.errors) {
             this.setState({ errors: nextProps.ui.errors });
+        } else if(!nextProps.ui.loading) {
+            this.setState({ body: ''});
         }
     }
 
@@ -28,6 +31,8 @@ class CommentForm extends Component {
     }
 
     doSubmit = event => {
+        this.props.clearErrors();// temporary fix
+        this.state.errors = {};
         event.preventDefault();
         this.props.createComment(this.props.postId, { body: this.state.body });
     }
@@ -63,7 +68,8 @@ CommentForm.propTypes = {
     ui: PropTypes.object.isRequired, 
     classes: PropTypes.object.isRequired,
     postId: PropTypes.string.isRequired,
-    authenticated: PropTypes.bool.isRequired
+    authenticated: PropTypes.bool.isRequired,
+    clearErrors: PropTypes.func.isRequired
 }
 
 const mapState = state => ({
@@ -71,4 +77,4 @@ const mapState = state => ({
     authenticated: state.user.authenticated
 })
 
-export default connect(mapState, { createComment })(withStyles(styles)(CommentForm));
+export default connect(mapState, { createComment, clearErrors })(withStyles(styles)(CommentForm));

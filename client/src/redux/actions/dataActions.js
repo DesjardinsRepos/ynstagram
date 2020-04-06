@@ -114,4 +114,23 @@ export const clearErrors = () => dispatch => {
     dispatch({ type: CLEAR_ERRORS });
 }
 
+export const getUserData = userHandle => dispatch => {
+
+    dispatch({ type: LOADING_DATA });
+
+    axios.get(`/user/${userHandle}`)
+        .then(response => {
+            dispatch({
+                type: SET_POSTS,
+                payload: response.data.posts
+            });
+        })
+        .catch(() => {
+            dispatch({
+                type: SET_POSTS,
+                payload: null
+            });
+        });
+}
+
 

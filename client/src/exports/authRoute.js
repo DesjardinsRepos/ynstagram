@@ -10,11 +10,10 @@ const authRoute = ({ component: Component, authenticated, ...rest}) => (
 
 const mapState = state => ({
     authenticated: state.user.authenticated
-    //get user data?
 });
 
 authRoute.propTypes = {
-    user: PropTypes.object // not required? only temp fix
+    user: PropTypes.object
 };
 
 export default connect(mapState)(authRoute);
