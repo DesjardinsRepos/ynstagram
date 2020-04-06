@@ -12,6 +12,7 @@ import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 import styles from '../../styles/userProfile';
 import EditUserDetails from './editUserDetails';
 import WrappedButton from '../wrappedButton';
+import ProfileSkeleton from '../../exports/profileSkeleton';
 
 class userProfile extends Component {
 
@@ -109,7 +110,9 @@ class userProfile extends Component {
                 </div>
             </Paper>
 
-        )) : (<p>loading...</p>)
+        )) : (
+            <ProfileSkeleton/>
+        )
     }
 }
 

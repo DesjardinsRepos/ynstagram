@@ -7,7 +7,8 @@ import { Grid } from '@material-ui/core';
 
 import { connect } from 'react-redux';
 import { getUserData } from '../redux/actions/dataActions';
-import { PlusOneTwoTone } from '@material-ui/icons';
+import PostSkeleton from '../exports/postSkeleton';
+import ProfileSkeleton from '../exports/profileSkeleton';
 
 
 class user extends Component {
@@ -39,7 +40,7 @@ class user extends Component {
         const { urlId } = this.state;
 
         const displayPosts = loading ? (
-            <p>loading...</p>
+            <PostSkeleton/>
 
         ) : posts === null ? (
             <p>no posts from this user</p>
@@ -64,8 +65,10 @@ class user extends Component {
                     {displayPosts}
                 </Grid>
                 <Grid item sm={8} xs={12}>
+
                     {this.state.profile === null ? (
-                        <p>Loading...</p>
+                        <ProfileSkeleton/>
+                        
                     ) : (
                         <StaticProfile profile={this.state.profile}/>
                     )}

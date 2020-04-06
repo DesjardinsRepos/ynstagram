@@ -5,7 +5,12 @@ export default createMuiTheme({
     palette: {
 		primary: pink,
 		secondary: purple,
-		iconsColor: '#fff'
+		iconsColor: '#fff',
+		skeleton: {
+			handle: '#f48fb1',
+			date: '#d6d6d6',
+			line: '#bdbdbd'
+		}
 	},
 	typography: {
 		useNextVariants: true

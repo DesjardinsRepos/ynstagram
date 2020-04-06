@@ -107,6 +107,5 @@ const mapState = state => ({
     user: state.user,
     ui: state.ui
 });
-const mapActions = { signupUser };
 
-export default connect(mapState, mapActions)(withStyles(styles)(SignupPage));
+export default connect(mapState, { signupUser })(withStyles(styles)(SignupPage));
