@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Button, TextField, Dialog,  DialogContent, DialogTitle, LinearProgress as CircularProgress } from '@material-ui/core';
+import { Grid, Typography, Dialog,  DialogContent, LinearProgress as Progress } from '@material-ui/core';
 import { Close as CloseIcon, ExpandMore as ExpandIcon, Chat as ChatIcon } from '@material-ui/icons';
 
 import { connect } from 'react-redux';
@@ -107,7 +107,7 @@ class PostDialog extends Component {
 
                 <Dialog open={this.state.open} onClose={this.doClose} fullWidth maxWidth="sm">
 
-                    {loading && (<CircularProgress size={30} className={classes.progress}/>)}
+                    {loading && (<Progress size={30} className={classes.progress}/>)}
 
                     <WrappedButton title="Close" onClick={this.doClose} tipClassName={classes.closeButton}>
                         <CloseIcon/>

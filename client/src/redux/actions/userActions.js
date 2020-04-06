@@ -1,5 +1,6 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER } from '../types';
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ } from '../types';
 import axios from 'axios';
+import { ColorLensOutlined } from '@material-ui/icons';
 
 export const loginUser = (userData, history) => dispatch => {
 
@@ -46,6 +47,7 @@ export const signupUser = (userData, history) => dispatch => {
 }
 
 export const logoutUser = () => dispatch => {
+    
     localStorage.removeItem('FBAuthToken');
     delete axios.defaults.headers.common['Authorization'];
     dispatch({ type: SET_UNAUTHENTICATED });
@@ -70,7 +72,7 @@ export const uploadImage = data => dispatch => {
     dispatch({ type: LOADING_USER});
 
     axios.post('/user/image', data)
-        .then(response => {
+        .then(() => {
             dispatch(getOwnUserData());
         })
         .catch(e => console.log(e));
@@ -83,6 +85,14 @@ export const editUserDetails = data => dispatch => {
     axios.post('/user', data)
         .then(() => {
             dispatch(getOwnUserData());
+        })
+        .catch(e => console.log(e));
+}
+
+export const markNotificationsRead = notificationIds => dispatch => {
+    axios.post('/notifications', notificationIds)
+        .then(() => {
+            dispatch({ type: MARK_NOTIFICATIONS_READ });
         })
         .catch(e => console.log(e));
 }
