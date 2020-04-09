@@ -3,6 +3,8 @@ const { getPosts, doPost, signUp, signIn, uploadImage, addUserDetails, getAuthen
         getPost, commentPost, likePost, unlikePost, deletePost, getUserDetails, markNotificationsRead } = require('./JSExports/functions.js');
 const { FBAuth } = require('./JSExports/exports.js');
 
+const cors = require('cors');
+app.use(cors());
 
 app.get('/posts', getPosts);
 app.get('/post/:postId', getPost);
@@ -99,3 +101,5 @@ exports.onPostDelete = functions.region('europe-west1').firestore.document('/pos
 
 // -6:30 like button in postdialog not working, also commetncount not updating, comments.js
 //login errors return undefined
+// homepage needs to reload after login
+//make icons invisible if logged in

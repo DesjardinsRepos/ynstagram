@@ -20,6 +20,8 @@ import axios from 'axios';
 
 import theme from './exports/theme';
 
+axios.defaults.baseURL = 'https://europe-west1-id-ynstagram.cloudfunctions.net/api'; // LLERZEICHEN!
+
 
 const token = localStorage.FBAuthToken;
 if(token) {
@@ -48,7 +50,7 @@ function App() {
             				<Route exact path="/" component={LandingPage}/>
 							<Route exact path="/users/:handle" component={User}/>
 							<Route exact path="/users/:handle/post/:postId" component={User}/>
-            				<AuthRoute exact path="/signin" component={SigninPage}/> /* make icons invisible if logged in */
+            				<AuthRoute exact path="/signin" component={SigninPage}/>
             				<AuthRoute exact path="/signup" component={SignupPage}/>
         				</Switch>
       				</div>

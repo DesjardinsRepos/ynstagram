@@ -32,7 +32,7 @@ class CommentForm extends Component {
 
     doSubmit = event => {
         this.props.clearErrors();// temporary fix
-        this.state.errors = {};
+        this.setState({ errors: {} });
         event.preventDefault();
         this.props.createComment(this.props.postId, { body: this.state.body });
     }

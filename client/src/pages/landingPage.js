@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,6 @@ import Post from '../components/post/post';
 import UserProfile from '../components/profile/userProfile';
 import { getPosts } from '../redux/actions/dataActions';
 import PostSkeleton from '../exports/postSkeleton';
-
 
 class LandingPage extends Component {
 
