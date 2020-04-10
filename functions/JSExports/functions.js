@@ -27,6 +27,9 @@ exports.doPost = (request, response) => {
     if(request.body.body.trim() === '') {
         return response.status(400).json({ body: 'This must not be empty.' });
 
+    } else if(request.body.body.trim().length > 1000) {
+        return response.status(400).json({ body: 'The maximal length of a post is 1000 characters.' });
+
     } else {
         const newPost = {
             body: request.body.body, 

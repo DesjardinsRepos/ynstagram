@@ -1,4 +1,4 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ } from '../types';
+import { SET_USER, SET_ERRORS, SET_AUTHENTICATED, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ } from '../types';
 import axios from 'axios';
 
 export const loginUser = (userData, history) => dispatch => {
@@ -9,8 +9,8 @@ export const loginUser = (userData, history) => dispatch => {
         .then(response => {
 
             localStorage.setItem('FBAuthToken', `Bearer ${response.data.token}`);
-            axios.defaults.headers.common['Autorization'] = `Bearer ${response.data.token}`; // add token for every axios req in future
-            dispatch(getOwnUserData());
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`; // add token for every axios req in future
+            dispatch(getOwnUserData());//     ^ not goddamn 'Autorization'
             dispatch({ type: CLEAR_ERRORS });
 
             history.push('/'); //redirect to '/'
@@ -61,7 +61,7 @@ export const getOwnUserData = () => dispatch => {
             dispatch({
                 type: SET_USER,
                 payload: response.data
-            })
+            });
         })
         .catch(e => console.log(e));
 }

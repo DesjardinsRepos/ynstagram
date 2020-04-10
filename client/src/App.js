@@ -26,8 +26,9 @@ axios.defaults.baseURL = 'https://europe-west1-id-ynstagram.cloudfunctions.net/a
 const token = localStorage.FBAuthToken;
 if(token) {
 	const decodedToken = tokenDecoder(token);
+
 	if(decodedToken.exp * 1000 < Date.now()) {
-		store.dispatch(logoutUser())
+		store.dispatch(logoutUser());
 		window.location.href= '/signin';
 	} else {
 		store.dispatch({ type: SET_AUTHENTICATED });
