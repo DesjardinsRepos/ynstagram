@@ -28,17 +28,17 @@ export class LikeButton extends Component {
 
         const likeButton = !authenticated ? (
             <Link to="/signin">
-                <WrappedButton title="Like">
+                <WrappedButton title="Like" padding={this.props.padding}>
                     <HearthEmpty color="primary"/>
                 </WrappedButton>
             </Link>
         ) : (
             this.likedPost() ? (
-                <WrappedButton title="remove Like" onClick={this.unlikePost}>
+                <WrappedButton title="remove Like" onClick={this.unlikePost} padding={this.props.padding}>
                     <HearthFilled color="primary"/>
                 </WrappedButton>
             ) : (
-                <WrappedButton title="Like" onClick={this.likePost}>
+                <WrappedButton title="Like" onClick={this.likePost} padding={this.props.padding}>
                     <HearthEmpty color="primary"/>
                 </WrappedButton>
             )
@@ -52,7 +52,9 @@ LikeButton.propTypes = {
     user: PropTypes.object.isRequired,
     postId: PropTypes.string.isRequired,
     likePost: PropTypes.func.isRequired,
-    unlikePost: PropTypes.func.isRequired
+    unlikePost: PropTypes.func.isRequired,
+
+    padding: PropTypes.string
 }
 
 const mapState = state => ({

@@ -57,6 +57,7 @@ class userProfile extends Component {
                     <WrappedButton title="Edit profile picture" onClick={this.imageButtonClicked} btnClassName="button">
                         <EditIcon color="primary"/>
                     </WrappedButton>
+                    
                     <div className="profile-details">
 
                         <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant='h5'>
@@ -65,6 +66,16 @@ class userProfile extends Component {
 
                         {bio && <Typography variant="body2">{bio}</Typography>}<hr/>
 
+                        {website && (
+                            <Fragment>
+                                <LinkIcon color="primary"/>
+                                <a href={website} target="_blank" rel="noopener noreferrer">
+                                    {' '}{website}
+                                </a>
+                                <hr/>
+                            </Fragment>
+                        )}
+                        
                         {location && (
                             <Fragment>
                                 <LocationIcon color="primary"/>
@@ -73,15 +84,6 @@ class userProfile extends Component {
                             </Fragment>
                         )}
 
-                        {website && (
-                            <Fragment>
-                                <LinkIcon color="primary"/>
-                                <a href={website} target="_blank" rel="noopener noreferrer">
-                                    {' '}{website}
-                                </a>
-                            </Fragment>
-                        )}
-                        
                         <CalendarIcon color="primary"/>{' '}
                         <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
                     </div>

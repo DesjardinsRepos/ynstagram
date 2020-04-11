@@ -22,9 +22,13 @@ class SigninPage extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.ui.errors) {
-            this.setState({ errors: nextProps.ui.errors });
+    static getDerivedStateFromProps(props) {
+
+        if(props.ui.errors) {
+            return { errors: props.ui.errors };
+
+        } else {
+            return null;
         }
     }
 
@@ -95,6 +99,7 @@ const mapState = state => ({ // maps state to props
     user: state.user,
     ui: state.ui
 });
+
 const mapActions = { loginUser };
 
 export default connect(mapState, mapActions)(withStyles(styles)(SigninPage));

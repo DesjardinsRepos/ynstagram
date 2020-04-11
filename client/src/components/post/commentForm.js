@@ -8,7 +8,7 @@ import { Grid, Button, TextField } from '@material-ui/core';
 import { createComment } from '../../redux/actions/dataActions';
 import { clearErrors } from '../../redux/actions/dataActions';
 
-const styles = {};
+import styles from '../../styles/commentForm';
 
 
 class CommentForm extends Component {
@@ -21,6 +21,7 @@ class CommentForm extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.ui.errors) {
             this.setState({ errors: nextProps.ui.errors });
+
         } else if(!nextProps.ui.loading) {
             this.setState({ body: ''});
         }
@@ -46,11 +47,12 @@ class CommentForm extends Component {
 
             <Grid item sm={12} style={{ textAlign: 'center' }}>
                 
-                <hr className={classes.visibleSeperator}/>
 
                 <form onSubmit={this.doSubmit}>
-                    <TextField name="body" tyle="text" label="comment a post" error={errors.comment ? true : false} helperText={errors.comment}
-                    value={this.state.body} onChange={this.onChange} fullWidth className={classes.textField}/>
+                    <TextField name="body" tyle="text" label={`comment as ${this.props.userHandle} `} error={errors.comment ? true : false} helperText={errors.comment}
+                    value={this.state.body} onChange={this.onChange} fullWidth className={classes.textField} variant="outlined" multiline/>
+
+                    <hr className={classes.invisibleSeperator}/>
 
                     <Button type="submit" variant="contained" color="primary" className={classes.button}>
                         Submit
@@ -68,6 +70,7 @@ CommentForm.propTypes = {
     ui: PropTypes.object.isRequired, 
     classes: PropTypes.object.isRequired,
     postId: PropTypes.string.isRequired,
+    userHandle: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
     clearErrors: PropTypes.func.isRequired
 }

@@ -24,6 +24,7 @@ axios.defaults.baseURL = 'https://europe-west1-id-ynstagram.cloudfunctions.net/a
 
 
 const token = localStorage.FBAuthToken;
+
 if(token) {
 	const decodedToken = tokenDecoder(token);
 
@@ -60,4 +61,5 @@ function App() {
 		</Provider>
 	);
 }
+
 export default App;

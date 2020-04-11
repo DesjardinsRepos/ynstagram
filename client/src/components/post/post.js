@@ -7,13 +7,13 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Typography, CardContent, CardMedia, Card } from '@material-ui/core';
-import { Chat as ChatIcon }from '@material-ui/icons';
 
 import styles from '../../styles/post';
-import WrappedButton from '../wrappedButton';
 import DeletePost from './deletePost';
 import PostDialog from './postDialog';
 import LikeButton from './likeButton';
+import CommentButton from '../lowLevel/commentButton';
+import PostBody from '../lowLevel/postBody';
 
 class post extends Component {
 
@@ -31,7 +31,7 @@ class post extends Component {
 
         const deleteButton = authenticated && userHandle === handle ? (
             <DeletePost postId={postId}/>
-        ) : (<div></div>)
+        ) : (null)
 
         return (
             <Card className={classes.card}>
@@ -40,25 +40,23 @@ class post extends Component {
 
                 <CardContent className={classes.content}>
                     <Typography variant="h5" component={Link} to={`/users/${userHandle}`} color="primary"> {userHandle} </Typography>
-                    {deleteButton}
-                    <Typography variant="body2" color="textSecondary"> {dayjs(createdAt).fromNow()} </Typography>
-					<Typography variant="body1">{body}</Typography>
+                    
+                    <PostBody body={body} date={createdAt}/>
 
-                    <LikeButton postId={postId}/>
-                    <span>{likeCount} Likes </span>
+                    <LikeButton postId={postId} padding='5px'/> <span>{likeCount}</span>
 
-                    <WrappedButton title="comments">
-                        <ChatIcon color="primary"/>
-                    </WrappedButton>
-                    <span>{commentCount} comments</span>
+                    <CommentButton count={commentCount}/>
 
                     <PostDialog postId={postId} userHandle={userHandle} openDialog={this.props.openDialog}/>
+
+                    {deleteButton}
                 </CardContent>
 
             </Card>
         )
     }
 }
+
 post.propTypes = {
     user: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
@@ -66,10 +64,8 @@ post.propTypes = {
     openDialog: PropTypes.bool
 }
 
-
 const mapState = state => ({
     user: state.user
 })
-
 
 export default connect(mapState)(withStyles(styles)(post));

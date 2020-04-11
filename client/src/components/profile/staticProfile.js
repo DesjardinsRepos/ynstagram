@@ -13,15 +13,7 @@ const StaticProfile = props => {
 
     const { 
         classes, 
-        profile: { 
-            handle, 
-            createdAt, 
-            imageUrl, 
-            bio, 
-            website, 
-            location 
-        } 
-    } = props; // NO THIS!!
+        profile: { handle, createdAt, imageUrl, bio, website, location } } = props; // NO THIS!!
 
     return (
         <Paper className={classes.paper}>
@@ -53,6 +45,7 @@ const StaticProfile = props => {
                                 <a href={website} target="_blank" rel="noopener noreferrer">
                                     {' '}{website}
                                 </a>
+                                <hr/>
                             </Fragment>
                         )}
                         

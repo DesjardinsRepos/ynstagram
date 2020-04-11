@@ -53,7 +53,7 @@ class PostDialog extends Component {
     render() {
         const {
             classes, 
-            post: { postId,body, createdAt, likeCount, commentCount, userImage, userHandle, comments },
+            post: { postId, body, createdAt, likeCount, commentCount, userImage, userHandle, comments },
             ui: { loading }
         } = this.props;
 
@@ -88,7 +88,7 @@ class PostDialog extends Component {
                         {body}
                     </Typography>
 
-                    <CommentForm postId={postId}/>
+                    <CommentForm postId={postId} userHandle={userHandle}/>
                 </Grid>
                 
                 <Comments comments={comments}/>
@@ -127,7 +127,7 @@ class PostDialog extends Component {
 PostDialog.propTypes = {
     getPost: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
-    postId: PropTypes.string.isRequired,
+    postId: PropTypes.string.isRequired, 
     userHandle: PropTypes.string.isRequired,
     post: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired

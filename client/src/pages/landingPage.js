@@ -26,10 +26,10 @@ class LandingPage extends Component {
 
         return (
             <Grid container spacing={2} justify="center">
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={9}>
                     {recentPosts}
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                     <UserProfile/>
                 </Grid>
             </Grid>
