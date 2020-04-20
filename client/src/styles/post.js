@@ -10,6 +10,12 @@ export default {
 	},
 	content: {
 		padding: 25, 
-		objectFit: 'cover'
+		objectFit: 'cover',
+		width: '100%'
+	},
+	body: {
+    	overflowWrap: 'break-word', 
+    	'overflow-wrap': 'break-word',
+    	width: '70%'
 	}
 }

@@ -64,4 +64,4 @@ node_modules/
 # dotenv environment variables file
 .env
 
-#**/[Ss]ervice[Aa]ccount[Kk]ey*
+**/[Ss]ervice[Aa]ccount[Kk]ey*

@@ -11,8 +11,9 @@ import { LocationOn as LocationIcon, Link as LinkIcon, CalendarToday as Calendar
 import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 import styles from '../../styles/userProfile';
 import EditUserDetails from './editUserDetails';
-import WrappedButton from '../wrappedButton';
+import WrappedButton from '../base/wrappedButton';
 import ProfileSkeleton from '../../exports/profileSkeleton';
+import UserImage from '../base/userImage';
 
 class userProfile extends Component {
 
@@ -49,11 +50,12 @@ class userProfile extends Component {
             <Paper className={classes.paper}>
                 <div className={classes.profile}>
 
-                    <div className="image-wrapper">
-                        <img src={imageUrl} alt="" className="profile-image"/>
-                    </div><hr/>
+                    <UserImage image={imageUrl}/>
+                    
+                    <hr/>
 
                     <input type="file" id="imageInput" hidden="hidden" onChange={this.onImageChange}/>
+
                     <WrappedButton title="Edit profile picture" onClick={this.imageButtonClicked} btnClassName="button">
                         <EditIcon color="primary"/>
                     </WrappedButton>

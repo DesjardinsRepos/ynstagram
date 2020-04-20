@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Edit as EditIcon } from '@material-ui/icons';
 
 import styles from '../../styles/userProfile';
-import WrappedButton from '../wrappedButton';
+import WrappedButton from '../base/wrappedButton';
 import { editUserDetails } from '../../redux/actions/userActions';
 
 class EditUserDetails extends Component {

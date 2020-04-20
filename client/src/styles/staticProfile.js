@@ -5,17 +5,6 @@ export default {
         padding: 20
     },
     profile: {
-        '& .image-wrapper': {
-            textAlign: 'center',
-            position: 'relative'
-        },
-        '& .profile-image': {
-            width: '200px', 
-            height: '200px',
-            objectFit: 'cover',
-            maxWidth: '100%',
-            borderRadius: '50%'
-        },
         '& .profile-details': {
             textAlign: 'center',
             '& span, svg': {

@@ -22,12 +22,13 @@ export default {
         'align-children': 'center'
     },
     body: {
-        padding: '40px 20px'
+        margin: '5% 3%',
+        'overflow-wrap': 'break-word',
+        width: '94%'
     },
     closeButton: {
         width: 50,
-        margin: '10px auto auto auto',
-
+        margin: '10px auto auto auto'
     },
     placeholder: {
         height: 200

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import WrappedButton from '../wrappedButton';
+import WrappedButton from '../base/wrappedButton';
 import { Favorite as HearthFilled, FavoriteBorder as HearthEmpty }from '@material-ui/icons';
 import { likePost, unlikePost } from '../../redux/actions/dataActions';
 

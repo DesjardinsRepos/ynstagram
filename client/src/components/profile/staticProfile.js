@@ -8,6 +8,7 @@ import { Link as MuiLink, Paper, Typography } from '@material-ui/core';
 import { LocationOn as LocationIcon, Link as LinkIcon, CalendarToday as CalendarIcon } from '@material-ui/icons';
 
 import styles from '../../styles/staticProfile';
+import UserImage from '../base/userImage';
 
 const StaticProfile = props => {
 
@@ -19,9 +20,9 @@ const StaticProfile = props => {
         <Paper className={classes.paper}>
                 <div className={classes.profile}>
 
-                    <div className="image-wrapper">
-                        <img src={imageUrl} alt="" className="profile-image"/>
-                    </div><hr/>
+                    <UserImage image={imageUrl}/>
+                    
+                    <hr/>
 
                     <div className="profile-details">
 

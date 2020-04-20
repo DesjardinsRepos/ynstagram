@@ -10,7 +10,8 @@ export default createMuiTheme({
 			handle: '#f48fb1',
 			date: '#d6d6d6',
 			line: '#bdbdbd'
-		}
+		}, 
+		white: 'white'
 	},
 	typography: {
 		useNextVariants: true

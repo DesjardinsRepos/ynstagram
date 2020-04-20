@@ -32,11 +32,15 @@ export default function(state = initialState, action) {
 
         case LIKE_POST:
         case UNLIKE_POST:
+
+            const comments = state.post.comments;
+
             index = state.posts.findIndex((post) => post.postId === action.payload.postId);
             state.posts[index] = action.payload;
-
+            
             if(state.post.postId === action.payload.postId) {
                 state.post = action.payload;
+                if(comments) state.post.comments = comments;
             }
             return { ...state };
 

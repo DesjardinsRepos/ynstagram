@@ -7,7 +7,6 @@ import { Grid, Button, TextField } from '@material-ui/core';
 
 import { createComment } from '../../redux/actions/dataActions';
 import { clearErrors } from '../../redux/actions/dataActions';
-
 import styles from '../../styles/commentForm';
 
 
@@ -40,16 +39,15 @@ class CommentForm extends Component {
 
     render() {
 
-        const { classes, authenticated } = this.props;
+        const { classes, authenticated, authenticatedUser } = this.props;
         const errors = this.state.errors;
 
         const commentForm = authenticated ? (
 
             <Grid item sm={12} style={{ textAlign: 'center' }}>
                 
-
                 <form onSubmit={this.doSubmit}>
-                    <TextField name="body" tyle="text" label={`comment as ${this.props.userHandle} `} error={errors.comment ? true : false} helperText={errors.comment}
+                    <TextField name="body" tyle="text" label={`comment as ${authenticatedUser} `} error={errors.comment ? true : false} helperText={errors.comment}
                     value={this.state.body} onChange={this.onChange} fullWidth className={classes.textField} variant="outlined" multiline/>
 
                     <hr className={classes.invisibleSeperator}/>
@@ -66,18 +64,21 @@ class CommentForm extends Component {
 }
 
 CommentForm.propTypes = {
-    createComment: PropTypes.func.isRequired, 
     ui: PropTypes.object.isRequired, 
     classes: PropTypes.object.isRequired,
     postId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
     authenticated: PropTypes.bool.isRequired,
-    clearErrors: PropTypes.func.isRequired
+
+    authenticatedUser: PropTypes.string,
+    clearErrors: PropTypes.func.isRequired,
+    createComment: PropTypes.func.isRequired
 }
 
 const mapState = state => ({
     ui: state.ui, 
-    authenticated: state.user.authenticated
+    authenticated: state.user.authenticated,
+    authenticatedUser: state.user.credentials.handle
 })
 
 export default connect(mapState, { createComment, clearErrors })(withStyles(styles)(CommentForm));

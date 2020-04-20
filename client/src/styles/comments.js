@@ -1,3 +1,4 @@
+import theme from '../exports/theme';
 
 export default {
     invisibleSeperator: {
@@ -7,16 +8,14 @@ export default {
     visibleSeperator: {
         width: '100%',
         borderBottom: '1px solid rgba(0,0,0,0.1)',
-        marginBottom: 20
-    },
-    commentImage: {
-        maxWidth: '100%',
-        height: 100,
-        width: 100,
-        objectFit: 'cover', // makes 1:1 ratio
-        borderRadius: '50%'
+        marginBottom: 20,
+        color: theme.palette.white
     },
     commentBody: {
-        marginLeft: 20
+        marginLeft: 20,
+    	overflowWrap: 'break-word', 
+    	'overflow-wrap': 'break-word',
+        maxWidth: '420px',
+        width: '55vw'
     }
 }

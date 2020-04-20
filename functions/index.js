@@ -99,7 +99,4 @@ exports.onPostDelete = functions.region('europe-west1').firestore.document('/pos
 			});
 	})
 
-// -6:30 like button in postdialog not working, also commetncount not updating, comments.js
-//login errors return undefined
-// homepage needs to reload after login
-//make icons invisible if logged in
+//like button in postdialog not working, also commetncount not updating, comments.js

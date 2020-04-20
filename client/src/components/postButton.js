@@ -8,7 +8,7 @@ import { Add as AddIcon, Close as CloseIcon } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { createPost, clearErrors } from '../redux/actions/dataActions';
 
-import WrappedButton from './wrappedButton';
+import WrappedButton from './base/wrappedButton';
 import styles from '../styles/postButton';
 
 class postButton extends Component {

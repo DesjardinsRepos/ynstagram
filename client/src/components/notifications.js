@@ -70,7 +70,7 @@ class Notifications extends Component {
                 return (
                     <MenuItem key={n.createdAt} onClick={this.doClose}>
                         {icon}
-                        <Typography component={Link} color="default" variant="body1" to={`/users/${n.recipient}/post/${n.postId}`}>
+                        <Typography component={Link} variant="body1" to={`/users/${n.recipient}/post/${n.postId}`}>
                             {n.sender} {verb} your post {time}
                         </Typography>
                     </MenuItem>

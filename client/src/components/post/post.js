@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, CardContent, CardMedia, Card } from '@material-ui/core';
+import { CardContent, CardMedia, Card } from '@material-ui/core';
 
 import styles from '../../styles/post';
 import DeletePost from './deletePost';
 import PostDialog from './postDialog';
 import LikeButton from './likeButton';
-import CommentButton from '../lowLevel/commentButton';
-import PostBody from '../lowLevel/postBody';
+import CommentButton from '../base/commentButton';
+import PostBody from '../base/postBody';
+import Date from '../base/date';
+import UserHandle from '../base/userHandle';
 
 class post extends Component {
 
     render() {
-        dayjs.extend(relativeTime); // add plugin
 
         const { 
             classes, 
@@ -39,19 +37,23 @@ class post extends Component {
                 <CardMedia className={classes.image} image={userImage} title="Profile Image"/>
 
                 <CardContent className={classes.content}>
-                    <Typography variant="h5" component={Link} to={`/users/${userHandle}`} color="primary"> {userHandle} </Typography>
+
+                    <UserHandle userHandle={userHandle}/>
                     
-                    <PostBody body={body} date={createdAt}/>
+                    <Date date={createdAt} mode='fromNow'/>
 
-                    <LikeButton postId={postId} padding='5px'/> <span>{likeCount}</span>
+                    <PostBody body={body} className={classes.body}/>
 
-                    <CommentButton count={commentCount}/>
+                    <div>
+                        <LikeButton postId={postId} padding='0'/> <span>{likeCount}</span>
 
-                    <PostDialog postId={postId} userHandle={userHandle} openDialog={this.props.openDialog}/>
+                        <CommentButton postId={postId} userHandle={userHandle} openDialog={this.props.openDialog} count={commentCount}/>
 
-                    {deleteButton}
+                        <PostDialog postId={postId} userHandle={userHandle} openDialog={this.props.openDialog} type="expand"/>
+
+                        {deleteButton}
+                    </div>
                 </CardContent>
-
             </Card>
         )
     }

@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 import { AppBar, Toolbar, Button } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 
-import Notifications from './notifications';
-import PostButton from './postButton';
+import Notifications from '../notifications';
+import PostButton from '../postButton';
 import WrappedButton from './wrappedButton';
 
-
 class Navbar extends Component {
+
     render() {
 
         const { authenticated } = this.props;

@@ -14,7 +14,7 @@ import SignupPage from './pages/signup';
 import SigninPage from './pages/signin';
 import User from './pages/user';
 
-import Navbar from './components/navbar';
+import Navbar from './components/base/navbar';
 import AuthRoute from './exports/authRoute';
 import axios from 'axios';
 

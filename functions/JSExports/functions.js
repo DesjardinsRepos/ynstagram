@@ -1,10 +1,10 @@
-const { functions, admin, db, storage, firebase, firebaseConfig } = require('./init.js');
-const { FBAuth, isEmail, isEmpty, validateInput, getUserDetails } = require('./exports.js');
+const { db, storage, firebase, firebaseConfig } = require('./init.js');
+const { validateInput, getUserDetails } = require('./exports.js');
 
 
 exports.getPosts = (request, response) => { //"posts" is url showed finally
 
-    db.collection('posts').orderBy('createdAt', 'desc').get()
+    db.collection('posts').limit(1000).orderBy('createdAt', 'desc').get()
         .then(data => { 
 
             let posts = [];
@@ -423,24 +423,26 @@ exports.getUserDetails = (request, response) => {
 
             if(doc.exists) {
                 userData.user = doc.data();
+
                 db.collection('posts').where('userHandle', '==', request.params.handle).orderBy('createdAt', 'desc').get()
-                .then(data => {
+                    .then(data => {
 
-                    userData.posts = [];
-                    data.forEach(doc => {
+                        userData.posts = [];
+                        data.forEach(doc => {
 
-                        userData.posts.push({
-                            body: doc.data().body,
-                            createdAt: doc.data().createdAt,
-                            userHandle: doc.data().userHandle,
-                            userImage: doc.data().userImage,
-                            likeCount: doc.data().likeCount,
-                            commentCount: doc.data().commentCount,
-                            postId: doc.id
+                            userData.posts.push({
+                                body: doc.data().body,
+                                createdAt: doc.data().createdAt,
+                                userHandle: doc.data().userHandle,
+                                userImage: doc.data().userImage,
+                                likeCount: doc.data().likeCount,
+                                commentCount: doc.data().commentCount,
+                                postId: doc.id
+                            });
                         });
-                	});
-                return response.json(userData);
-               })
+                        
+                    return response.json(userData);
+                });
 
             } else {
                 return response.status(404).json({ error: 'User not found'});

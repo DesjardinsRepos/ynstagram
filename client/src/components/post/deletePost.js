@@ -6,15 +6,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 import { DeleteOutline } from '@material-ui/icons';
 
-import WrappedButton from '../wrappedButton';
+import WrappedButton from '../base/wrappedButton';
 import { deletePost } from '../../redux/actions/dataActions';
-
-const styles = {
-    deleteButton: {
-        top: '-2%'
-    }
-};
-
+import styles from '../../styles/deletePost';
 
 class DeletePost extends Component {
 
@@ -53,7 +47,6 @@ class DeletePost extends Component {
                         <Button onClick={this.deletePost} color="secondary">Delete</Button>
                     </DialogActions>
                 </Dialog>
-                
             </Fragment>
         )
     }

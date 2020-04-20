@@ -1,20 +1,23 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Dialog,  DialogContent, LinearProgress as Progress } from '@material-ui/core';
+import { Grid, Dialog,  DialogContent, LinearProgress as Progress } from '@material-ui/core';
 import { Close as CloseIcon, ExpandMore as ExpandIcon, Chat as ChatIcon } from '@material-ui/icons';
 
 import { connect } from 'react-redux';
 import { getPost, clearErrors } from '../../redux/actions/dataActions';
 
-import WrappedButton from '../wrappedButton';
+import WrappedButton from '../base/wrappedButton';
 import styles from '../../styles/postDialog';
 import LikeButton from './likeButton';
+import CommentButton from '../base/commentButton';
 import Comments from './comments';
 import CommentForm from './commentForm';
+import Date from '../base/date';
+import UserHandle from '../base/userHandle';
+import PostBody from '../base/postBody';
+import UserImage from '../base/userImage';
 
 class PostDialog extends Component {
 
@@ -60,49 +63,39 @@ class PostDialog extends Component {
         const dialogContent = !loading ? (
             <Fragment>
                 <Grid container spacing={1}>
-                    <Grid item sm={3}>
-                        <img src={userImage} alt="Profile" className={classes.profileImage}/>
+                    <Grid item sm={4}>
+                        <UserImage image={userImage} size="110px"/>
                     </Grid>
-                    <Grid item sm={7} className={classes.userInfo}>
-                        <Typography component={Link} to={`/users/${userHandle}`} color="primary" variant="h5">
-                            {userHandle}
-                        </Typography>
+                    <Grid item sm={8} className={classes.userInfo}>
+
+                        <UserHandle userHandle={userHandle}/>
                     
-                        <hr className={classes.invisibleSeperator}/>
+                        <Date date={createdAt}/>
 
-                        <Typography variant="body2" color="textSecondary">
-                            {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
-                        </Typography>
+                        <LikeButton postId={postId} padding='0'/> <span>{likeCount}</span>
 
-                        <hr className={classes.invisibleSeperator}/>
-
-                        <LikeButton postId={postId}/> <span>{likeCount} likes</span>
-
-                        <WrappedButton title="comments">
-                            <ChatIcon color="primary"/>
-                        </WrappedButton>
-                        <span>{commentCount} comments</span>
-
+                        <CommentButton count={commentCount}/>
                     </Grid>
-                    <Typography variant="body1" className={classes.body}>
-                        {body}
-                    </Typography>
+
+                    <PostBody body={body} className={classes.body}/>
 
                     <CommentForm postId={postId} userHandle={userHandle}/>
                 </Grid>
                 
                 <Comments comments={comments}/>
 
+                <br className={classes.invisibleSeperator}/>
+
             </Fragment>
 
         ) : ( 
-        <div className={classes.placeholder}></div> 
+            <div className={classes.placeholder}></div> 
         )
 
         return (
             <Fragment>
-                <WrappedButton onClick={this.doOpen} title="See more" tipClassName={classes.expandButton}>
-                    <ExpandIcon color="primary"/>
+                <WrappedButton onClick={this.doOpen} title={this.props.type === "expand" ? "See more" : "Show comments"} tipClassName={classes.expandButton}>
+                    {this.props.type === "expand" ? <ExpandIcon color="primary"/> : <ChatIcon color="primary"/>}
                 </WrappedButton>
 
                 <Dialog open={this.state.open} onClose={this.doClose} fullWidth maxWidth="sm">
@@ -120,8 +113,6 @@ class PostDialog extends Component {
             </Fragment>
         )
     }
-
-
 }
 
 PostDialog.propTypes = {
@@ -130,7 +121,9 @@ PostDialog.propTypes = {
     postId: PropTypes.string.isRequired, 
     userHandle: PropTypes.string.isRequired,
     post: PropTypes.object.isRequired,
-    ui: PropTypes.object.isRequired
+    ui: PropTypes.object.isRequired,
+
+    type: PropTypes.string
 };
 
 const mapState = state => ({
