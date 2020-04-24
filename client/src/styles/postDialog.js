@@ -23,7 +23,7 @@ export default {
     },
     body: {
         margin: '5% 3%',
-        'overflow-wrap': 'break-word',
+        overflowWrap: 'break-word',
         width: '94%'
     },
     closeButton: {

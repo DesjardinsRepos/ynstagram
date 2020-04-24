@@ -14,7 +14,6 @@ export default {
     commentBody: {
         marginLeft: 20,
     	overflowWrap: 'break-word', 
-    	'overflow-wrap': 'break-word',
         maxWidth: '420px',
         width: '55vw'
     }

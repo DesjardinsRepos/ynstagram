@@ -44,7 +44,7 @@ class CommentForm extends Component {
 
         const commentForm = authenticated ? (
 
-            <Grid item sm={12} style={{ textAlign: 'center' }}>
+            <Grid item sm={12} style={{ textAlign: 'center', width: '100%' }}>
                 
                 <form onSubmit={this.doSubmit}>
                     <TextField name="body" tyle="text" label={`comment as ${authenticatedUser} `} error={errors.comment ? true : false} helperText={errors.comment}

@@ -269,6 +269,7 @@ exports.getPost = (request, response) => {
 exports.commentPost = (request, response) => {
 
     if(request.body.body.trim() === '') return response.status(400).json({ comment: 'Must not be empty'});
+    if(request.body.body.trim().length > 200) return response.status(400).json({ comment: 'The maximal lenght of a comment is 200 characters.'});
 
     const newComment = {
         body: request.body.body,
@@ -277,9 +278,6 @@ exports.commentPost = (request, response) => {
         userHandle: request.user.handle,
         userImage: request.user.imageUrl // to get profile pic directly from comment, no further fetching
     };
-
-    //this needs to be removed later
-    //if(newComment.userImage == undefined) newComment.userImage = "https://firebasestorage.googleapis.com/v0/b/id-ynstagram.appspot.com/o/ProfilePictures%2F11925540475.png?alt=media";
 
     db.doc(`/posts/${request.params.postId}`).get()
         .then(doc => {

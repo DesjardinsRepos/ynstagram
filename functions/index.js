@@ -99,4 +99,5 @@ exports.onPostDelete = functions.region('europe-west1').firestore.document('/pos
 			});
 	})
 
-//like button in postdialog not working, also commetncount not updating, comments.js
+// commetncount not updating
+// post < 200 words form clearing bug

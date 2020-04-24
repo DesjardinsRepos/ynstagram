@@ -1,21 +1,37 @@
+import theme from '../exports/theme';
 
 export default {
     card: {
-		display: 'flex', 
+		display: 'flex',
 		marginBottom: 20
 	},
-	image: {
-		minWidth: 200,
-		objectFit: 'cover'
-	},
 	content: {
-		padding: 25, 
 		objectFit: 'cover',
-		width: '100%'
+		width: '100%',
+		padding: 24
 	},
+	right: {
+		position: 'relative',
+		backgroundColor: theme.palette.primary[50],
+		borderRadius: '3px',
+		width: '0'
+	}, 
 	body: {
     	overflowWrap: 'break-word', 
-    	'overflow-wrap': 'break-word',
-    	width: '70%'
-	}
+		width: '94%', 
+		margin: '2% 3%'
+	},
+	placeholder: {
+		height: 50
+	},
+	interaction: {
+		position: 'absolute',
+		bottom: 0, 
+		width: '94%', 
+		margin: '0 3% 2% 3%'
+	},
+    invisibleSeperator: {
+        border: 'none',
+        margin: 4
+    }
 }

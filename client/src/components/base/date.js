@@ -15,7 +15,7 @@ class Date extends Component {
         return (
             <Fragment>
                 {mode ? (
-                    mode === 'fromNow' && <Typography variant="body2" color="textSecondary"> {dayjs(date).fromNow()}</Typography>
+                    mode === 'fromNow' && <Typography variant="body2" color="textSecondary" style={{ textAlign: 'center'}}> {dayjs(date).fromNow()}</Typography>
                 ) : (
                     <Typography variant="body2" color="textSecondary"> {dayjs(date).format('h:mm a, MMMM DD YYYY')}</Typography>
                 )}
