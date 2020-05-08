@@ -1,60 +1,97 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Link as MuiLink, Paper, Typography } from '@material-ui/core';
-import { LocationOn as LocationIcon, Link as LinkIcon, CalendarToday as CalendarIcon } from '@material-ui/icons';
+import { Paper, Grid } from '@material-ui/core';
 
 import styles from '../../styles/staticProfile';
 import UserImage from '../base/userImage';
+import UserHandle from '../base/userHandle';
+import Space from '../base/space';
+import Location from '../base/profile/location';
+import Website from '../base/profile/website';
+import Joined from '../base/profile/joined';
+import Bio from '../base/profile/bio';
+
+import getWindowDimensions from '../../hooks/getWindowDimensions';
 
 const StaticProfile = props => {
 
     const { 
         classes, 
-        profile: { handle, createdAt, imageUrl, bio, website, location } } = props; // NO THIS!!
+        profile: { handle, createdAt, imageUrl, bio, website, location } 
+    } = props; // NO THIS!!
+
+    const { width } = getWindowDimensions();
+    const mobile = width < 720;
+    const pc = width > 1320; 
 
     return (
-        <Paper className={classes.paper}>
-                <div className={classes.profile}>
+        <Fragment>
+            { mobile ? (
+                <Fragment>  
+                    <Space/>
 
-                    <UserImage image={imageUrl}/>
-                    
-                    <hr/>
+                    <Paper className={classes.paper}>
+                        <UserImage image={imageUrl} className={classes.imgMobile} size="150px"/>
 
-                    <div className="profile-details">
+                        <Space/>
 
-                        <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant='h5'>
-                            {handle}
-                        </MuiLink><hr/>
+                        <div style={{ textAlign: 'center' }}>  
+                            <UserHandle userHandle={handle} variant="h4"/>
+                                <Space horizontal/>
 
-                        {bio && <Typography variant="body2">{bio}</Typography>}<hr/>
+                            <Joined date={createdAt} small/>
+                        </div>
 
-                        {location && (
-                            <Fragment>
-                                <LocationIcon color="primary"/>
-                                <span>{location}</span>
-                                <hr/>
-                            </Fragment>
+                        <div className="profile-details">
+                            <Space space="20px"/>
+
+                            <Bio bio={bio}/>
+
+                                <Space small/>
+                            <Location location={location}/>
+
+                            <Website website={website}/>
+                        </div>
+                    </Paper>
+                </Fragment>
+            ) : (
+
+                <Fragment>  
+                    <Space/>
+
+                    <Paper className={classes.paper}>
+                        <Space small/>
+
+                        { pc ? (
+                            <UserImage image={imageUrl} className={classes.imgPc} size="150px"/>
+                        ) : (
+                            <UserImage image={imageUrl} className={classes.imgTablet} size="150px"/>
                         )}
 
-                        {website && (
-                            <Fragment>
-                                <LinkIcon color="primary"/>
-                                <a href={website} target="_blank" rel="noopener noreferrer">
-                                    {' '}{website}
-                                </a>
-                                <hr/>
-                            </Fragment>
-                        )}
-                        
-                        <CalendarIcon color="primary"/>{' '}
-                        <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
-                    </div>
-                </div>
-            </Paper>
+                        <UserHandle userHandle={handle} variant="h4" style={{ marginLeft: 'calc(25% + 80px)'}}/>
+                            <Space horizontal/>
+                        <Joined date={createdAt} small/>
+                            <Space space="50px"/>
+
+                        <div className="profile-details">
+                            <Grid container spacing={2} justify="center">
+                                <Grid item xs={12} sm={7}>
+
+                                    <Bio bio={bio}/>
+                                </Grid>
+
+                                    <Grid item xs={12} sm={5}>
+                                    <Location location={location}/>
+                                    <Website website={website}/>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </Paper>
+                </Fragment>
+            )}
+        </Fragment>
     )
 
 }

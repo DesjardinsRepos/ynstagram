@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import styles from '../../styles/comments';
 import UserImage from '../base/userImage';
+import Space from '../base/space';
+import Date from '../base/date';
+import UserHandle from '../base/userHandle';
+import PostBody from '../base/postBody';
 
 class Comments extends Component {
     render() {
@@ -34,17 +36,11 @@ class Comments extends Component {
 
                                     <Grid item sm={10}>
                                         <div className={classes.commentBody}>
-                                            <Typography variant="h5" component={Link} to={`/users/${userHandle}`} color="primary">
-                                                {userHandle}
-                                            </Typography>
 
-                                            <Typography variant="body2" color="textSecondary">
-                                                {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
-                                            </Typography>
-
-                                            <hr className={classes.invisibleSeperator}/>
-
-                                            <Typography variant="body1">{body}</Typography>
+                                            <UserHandle userHandle={userHandle}/>
+                                            <Date date={createdAt}/>
+                                                <Space small/>
+                                            <PostBody body={body}/>
                                         </div>
                                     </Grid>
                                 </Grid>

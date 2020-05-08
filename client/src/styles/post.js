@@ -21,17 +21,10 @@ export default {
 		width: '94%', 
 		margin: '2% 3%'
 	},
-	placeholder: {
-		height: 50
-	},
 	interaction: {
 		position: 'absolute',
 		bottom: 0, 
 		width: '94%', 
-		margin: '0 3% 2% 3%'
-	},
-    invisibleSeperator: {
-        border: 'none',
-        margin: 4
-    }
+		margin: '0 2% 2% 2%'
+	}
 }

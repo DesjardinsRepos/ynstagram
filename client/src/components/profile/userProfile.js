@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Typography, Paper, Link as MuiLink } from '@material-ui/core';
-import { LocationOn as LocationIcon, Link as LinkIcon, CalendarToday as CalendarIcon, Edit as EditIcon, ExitToApp as ExitIcon } from '@material-ui/icons';
+import { Button, Typography, Paper } from '@material-ui/core';
+import {  Edit as EditIcon, ExitToApp as ExitIcon } from '@material-ui/icons';
 
 import { logoutUser, uploadImage } from '../../redux/actions/userActions';
 import styles from '../../styles/userProfile';
@@ -14,6 +13,12 @@ import EditUserDetails from './editUserDetails';
 import WrappedButton from '../base/wrappedButton';
 import ProfileSkeleton from '../../exports/profileSkeleton';
 import UserImage from '../base/userImage';
+import Location from '../base/profile/location';
+import Website from '../base/profile/website';
+import Joined from '../base/profile/joined';
+import Bio from '../base/profile/bio';
+import UserHandle from '../base/userHandle';
+import Space from '../base/space';
 
 class userProfile extends Component {
 
@@ -48,54 +53,32 @@ class userProfile extends Component {
         return !loading ? (authenticated ? (
 
             <Paper className={classes.paper}>
-                <div className={classes.profile}>
-
-                    <UserImage image={imageUrl}/>
-                    
-                    <hr/>
+                <UserImage image={imageUrl}/>
+                    <Space small/>
 
                     <input type="file" id="imageInput" hidden="hidden" onChange={this.onImageChange}/>
 
-                    <WrappedButton title="Edit profile picture" onClick={this.imageButtonClicked} btnClassName="button">
-                        <EditIcon color="primary"/>
-                    </WrappedButton>
-                    
-                    <div className="profile-details">
+                <WrappedButton title="Edit profile picture" onClick={this.imageButtonClicked} btnClassName="button">
+                    <EditIcon color="primary"/>
+                </WrappedButton>
+                
+                <div className={classes.profileDetails}>
+                    <UserHandle userHandle={handle}/>
+                        <Space small/>
 
-                        <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant='h5'>
-                            {handle}
-                        </MuiLink><hr/>
+                    <Bio bio={bio}/>
+                        <Space small/>
 
-                        {bio && <Typography variant="body2">{bio}</Typography>}<hr/>
-
-                        {website && (
-                            <Fragment>
-                                <LinkIcon color="primary"/>
-                                <a href={website} target="_blank" rel="noopener noreferrer">
-                                    {' '}{website}
-                                </a>
-                                <hr/>
-                            </Fragment>
-                        )}
-                        
-                        {location && (
-                            <Fragment>
-                                <LocationIcon color="primary"/>
-                                <span>{location}</span>
-                                <hr/>
-                            </Fragment>
-                        )}
-
-                        <CalendarIcon color="primary"/>{' '}
-                        <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
-                    </div>
-
-                    <WrappedButton title="logout" onClick={this.doLogout}>
-                        <ExitIcon color="primary"/>
-                    </WrappedButton>
-
-                    <EditUserDetails/>
+                    <Website website={website}/>
+                    <Location location={location}/>
+                    <Joined date={createdAt}/>
                 </div>
+
+                <WrappedButton title="logout" onClick={this.doLogout}>
+                    <ExitIcon color="primary"/>
+                </WrappedButton>
+
+                <EditUserDetails/>
             </Paper>
 
         ) : (

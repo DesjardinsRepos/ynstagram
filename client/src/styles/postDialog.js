@@ -1,16 +1,11 @@
 
 export default {
-    invisibleSeperator: {
-        border: 'none',
-        margin: 4
-    }, 
     profileImage: {
         maxWidth: 100,
         height: 100,
         borderRadius: '50%',
-        'margin-left': 'auto',
-        'margin-right': 'auto',
-        display: 'block'
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
     dialogContent: {
         padding: 20
@@ -19,7 +14,7 @@ export default {
         margin: 'auto',
         marginLeft: 0,
         display: 'block',
-        'align-children': 'center'
+        alignChildren: 'center'
     },
     body: {
         margin: '5% 3%',
@@ -29,8 +24,5 @@ export default {
     closeButton: {
         width: 50,
         margin: '10px auto auto auto'
-    },
-    placeholder: {
-        height: 200
     }
 }

@@ -25,29 +25,38 @@ class DeletePost extends Component {
     }
 
     deletePost = () => {
-        this.props.deletePost(this.props.postId);
+        this.props.deletePost(this.props.post.postId);
         this.setState({ open: false });
     }
 
     render() {
 
-        const { classes } = this.props;
+        const { 
+            classes, 
+            user: { authenticated, credentials: { handle } },
+            post: { userHandle } 
+        } = this.props;
 
         return (
-            <Fragment>
-                <WrappedButton title="delete Post" onClick={this.doOpen} btnClassName={classes.deleteButton}>
-                    <DeleteOutline color="secondary"/>
-                </WrappedButton>
+            authenticated && userHandle === handle ? (
+                <Fragment>
+                    
+                    <WrappedButton title="delete Post" onClick={this.doOpen} btnClassName={classes.deleteButton}>
+                        <DeleteOutline color="secondary"/>
+                    </WrappedButton>
 
-                <Dialog open={this.state.open} onClose={this.doClose} fullWidth maxWidth="sm">
-                    <DialogTitle>Are you sure you want to delete that post?</DialogTitle>
+                    <Dialog open={this.state.open} onClose={this.doClose} fullWidth maxWidth="sm">
+                        <DialogTitle>Are you sure you want to delete that post?</DialogTitle>
 
-                    <DialogActions>
-                        <Button onClick={this.doClose} color="primary">Cancel</Button>
-                        <Button onClick={this.deletePost} color="secondary">Delete</Button>
-                    </DialogActions>
-                </Dialog>
-            </Fragment>
+                        <DialogActions>
+                            <Button onClick={this.doClose} color="primary">Cancel</Button>
+                            <Button onClick={this.deletePost} color="secondary">Delete</Button>
+                        </DialogActions>
+                    </Dialog>
+                </Fragment>
+            ) : (
+                null
+            )
         )
     }
 }
@@ -55,7 +64,12 @@ class DeletePost extends Component {
 DeletePost.propTypes = {
     deletePost: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    postId: PropTypes.string.isRequired
+    post: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 }
 
-export default connect(null, { deletePost })(withStyles(styles)(DeletePost));
+const mapState = state => ({
+    user: state.user
+})
+
+export default connect(mapState, { deletePost })(withStyles(styles)(DeletePost));

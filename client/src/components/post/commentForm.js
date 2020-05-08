@@ -7,6 +7,7 @@ import { Grid, Button, TextField } from '@material-ui/core';
 
 import { createComment } from '../../redux/actions/dataActions';
 import { clearErrors } from '../../redux/actions/dataActions';
+import Space from '../base/space';
 import styles from '../../styles/commentForm';
 
 
@@ -42,24 +43,23 @@ class CommentForm extends Component {
         const { classes, authenticated, authenticatedUser } = this.props;
         const errors = this.state.errors;
 
-        const commentForm = authenticated ? (
+        return( authenticated ? (
 
             <Grid item sm={12} style={{ textAlign: 'center', width: '100%' }}>
                 
                 <form onSubmit={this.doSubmit}>
                     <TextField name="body" tyle="text" label={`comment as ${authenticatedUser} `} error={errors.comment ? true : false} helperText={errors.comment}
                     value={this.state.body} onChange={this.onChange} fullWidth className={classes.textField} variant="outlined" multiline/>
-
-                    <hr className={classes.invisibleSeperator}/>
+                        <Space small/>
 
                     <Button type="submit" variant="contained" color="primary" className={classes.button}>
                         Submit
                     </Button>
                 </form>
             </Grid>
-        ) : null
-
-        return commentForm;
+        ) : (
+            null
+        ))
     }
 }
 

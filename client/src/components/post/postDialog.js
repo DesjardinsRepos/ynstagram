@@ -18,6 +18,7 @@ import Date from '../base/date';
 import UserHandle from '../base/userHandle';
 import PostBody from '../base/postBody';
 import UserImage from '../base/userImage';
+import Space from '../base/space';
 
 class PostDialog extends Component {
 
@@ -64,32 +65,28 @@ class PostDialog extends Component {
             <Fragment>
                 <Grid container spacing={1}>
                     <Grid item sm={4}>
+
                         <UserImage image={userImage} size="110px"/>
                     </Grid>
                     <Grid item sm={8} className={classes.userInfo}>
 
                         <UserHandle userHandle={userHandle}/>
-                    
                         <Date date={createdAt}/>
-
                         <LikeButton postId={postId} padding='0'/> <span>{likeCount}</span>
-
                         <CommentButton count={commentCount}/>
                     </Grid>
-
-                    <PostBody body={body} className={classes.body}/>
-
-                    <CommentForm postId={postId} userHandle={userHandle}/>
                 </Grid>
+            
+                <PostBody body={body} className={classes.body}/>
+                <CommentForm postId={postId} userHandle={userHandle}/>
+                    <Space small/>
                 
                 <Comments comments={comments}/>
-
-                <br className={classes.invisibleSeperator}/>
-
+                    <Space small/>
             </Fragment>
 
         ) : ( 
-            <div className={classes.placeholder}></div> 
+            <Space space="200px"/>
         )
 
         return (

@@ -60,11 +60,8 @@ class user extends Component {
         )
 
         return (
-            <Grid container spacing={2} direction="row">
-                <Grid item sm={9} xs={12}>
-                    {displayPosts}
-                </Grid>
-                <Grid item sm={3} xs={12}>
+            <Grid container spacing={2} justify="center">
+                <Grid item sm={12} xs={12}>
 
                     {this.state.profile === null ? (
                         <ProfileSkeleton/>
@@ -72,6 +69,9 @@ class user extends Component {
                     ) : (
                         <StaticProfile profile={this.state.profile}/>
                     )}
+                </Grid>
+                <Grid item sm={12} xs={12}>
+                    {displayPosts}
                 </Grid>
             </Grid>
         )

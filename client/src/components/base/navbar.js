@@ -1,23 +1,26 @@
 import React, { Component, Fragment } from 'react';
+
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { AppBar, Toolbar, Button } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
+import { Home as HomeIcon } from '@material-ui/icons';
 
 import Notifications from '../notifications';
 import PostButton from '../postButton';
 import WrappedButton from './wrappedButton';
+import MenuDialog from './menuDialog';
 
 class Navbar extends Component {
 
     render() {
 
         const { authenticated } = this.props;
-
         return (
             <AppBar>
+                <MenuDialog/> 
+
                 <Toolbar className="nav-container">
                     { authenticated ? (
                         <Fragment>
@@ -38,7 +41,6 @@ class Navbar extends Component {
                             <Button color="inherit" component={Link} to="signup"> signup </Button>
                         </Fragment>
                     )}
-                    
                 </Toolbar>
             </AppBar>
         )

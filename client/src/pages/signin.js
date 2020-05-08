@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
 
 import MainIcon from '../ressources/images/MainIcon.png';
+import Space from '../components/base/space';
 import styles from '../styles/signinForm';
 
 class SigninPage extends Component {
@@ -16,8 +17,8 @@ class SigninPage extends Component {
 
         super();
         this.state = {
-            email: '',
-            password: '',
+            email: 'Test-User@email.com',
+            password: 'testuser',
             errors: {}
         }
     }
@@ -49,14 +50,14 @@ class SigninPage extends Component {
     }
 
     render() {
-        const { classes, ui:{ loading } } = this.props;
+        const { classes, ui: { loading } } = this.props;
         const { errors } = this.state;
 
         return (
             
             <Grid container className={classes.container}>
                 <Grid item sm className={classes.form}>
-                    <Card className={classes.card}>
+                    <Card>
 
                     {loading && (<LinearProgress/>)}
 
@@ -70,13 +71,14 @@ class SigninPage extends Component {
                             onChange={this.onChange} fullWidth helperText={errors.email} error={errors.email ? true : false}/>
 
                             <TextField id="password" name="password" type="password" label="Password" className={classes.textField} value={this.state.password} 
-                            onChange={this.onChange} fullWidth helperText={errors.password} error={errors.password ? true : false}/> 
+                            onChange={this.onChange} fullWidth helperText={errors.password} error={errors.password ? true : false}/>
                         
                             <Button type="submit" variant="contained" color="primary" className={classes.button} disabled={loading}>
                                 signin 
-                            </Button> <br/>
-                        </form> <br/>
-
+                            </Button>
+                        </form>
+                        
+                            <Space small/>
                         <small>Don't have an Account? Sign up <Link className={classes.link} to="/signup" color="secondary">here</Link></small>
 
                     </CardContent>

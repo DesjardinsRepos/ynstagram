@@ -61,5 +61,6 @@ function App() {
 		</Provider>
 	);
 }
+//postdialog not mobile friendly
 
 export default App;

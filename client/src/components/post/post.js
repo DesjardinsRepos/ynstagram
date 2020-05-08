@@ -14,6 +14,7 @@ import PostBody from '../base/postBody';
 import Date from '../base/date';
 import UserHandle from '../base/userHandle';
 import UserImage from '../base/userImage';
+import Space from '../base/space';
 
 class post extends Component {
 
@@ -21,17 +22,14 @@ class post extends Component {
 
         const { 
             classes, 
+            post, 
             post : { body, createdAt, userImage, userHandle, postId, likeCount, commentCount }, 
             user: { 
                 authenticated, 
                 credentials: { handle }
             }
-        } = this.props  
-
-        const deleteButton = authenticated && userHandle === handle ? (
-            <DeletePost postId={postId}/>
-        ) : (null)
-
+        } = this.props 
+        
         return (
             <Card className={classes.card}>
                 <CardContent className={classes.content}>
@@ -40,30 +38,24 @@ class post extends Component {
 
                         <Grid item xs={12} sm={3} style={{ textAlign: 'center'}}>
                             <UserImage image={userImage} size="100px"/>
-                            <hr className={classes.invisibleSeperator}/>
+                                <Space small/>
                             <UserHandle userHandle={userHandle}/>
                             <Date date={createdAt} mode='fromNow'/>
                         </Grid>
 
                         <Grid item xs={12} sm={9} className={classes.right}>
                             <PostBody body={body} className={classes.body}/>
-
-                            <div className={classes.placeholder}/>
+                                <Space space="50px"/>
 
                             <div className={classes.interaction}>
+
                                 <LikeButton postId={postId} padding='0'/> <span>{likeCount}</span>
-
                                 <CommentButton postId={postId} userHandle={userHandle} openDialog={this.props.openDialog} count={commentCount}/>
-
                                 <PostDialog postId={postId} userHandle={userHandle} openDialog={this.props.openDialog} type="expand"/>
-
-                                {deleteButton}
+                                <DeletePost post={post}/>
                             </div>
                         </Grid>
                     </Grid>
-
-
-                    
                 </CardContent>
             </Card>
         )

@@ -30,8 +30,5 @@ export default {
     },
     link: {
         color: theme.palette.primary.main
-    },
-    card: {
-        'min-width' : '24rem'
     }
 }
