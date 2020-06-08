@@ -2,10 +2,10 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import UserProfile from '../profile/userProfile';
-import getWindowDimensions from '../../hooks/getWindowDimensions';
+import getDevice from '../../hooks/getDevice';
 
 export default ({ children }) => {
-  return( getWindowDimensions().width >= 1024 ? (
+  return( getDevice(1024) === 'pc' ? (
 
     <Grid container spacing={2} justify="center">
       <Grid item xs={12} sm={8}>

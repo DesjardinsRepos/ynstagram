@@ -38,10 +38,9 @@ if(token) {
 	}
 } 
 
-function App() {
+export default () => {
 	return (
 		<Provider store={store}>
-
 			<MuiThemeProvider theme={theme}>
       			<Router>
 
@@ -62,5 +61,4 @@ function App() {
 	);
 }
 //postdialog not mobile friendly
-
-export default App;
+// rewrite all to functional for hooks

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import { CalendarToday as CalendarIcon } from '@material-ui/icons';
 import dayjs from 'dayjs';
 
+import { CalendarToday as CalendarIcon } from '@material-ui/icons';
 
 export default ({ date, small }) => (
     <Fragment>

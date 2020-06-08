@@ -9,6 +9,7 @@ import { Edit as EditIcon } from '@material-ui/icons';
 import styles from '../../styles/userProfile';
 import WrappedButton from '../base/wrappedButton';
 import { editUserDetails } from '../../redux/actions/userActions';
+import Space from '../base/space';
 
 class EditUserDetails extends Component {
 
@@ -76,10 +77,12 @@ class EditUserDetails extends Component {
                         <form>
                             <TextField name="bio" type="text" label="bio" multiline rows="3" placeholder="Write something about yourself" 
                             className={classes.textField} value={this.state.bio} fullWidth onChange={this.onChange}/>
+                                <Space space="20px"/>
 
                             <TextField name="website" type="text" label="website" placeholder="your own website" 
                             className={classes.textField} value={this.state.website} fullWidth onChange={this.onChange}/>
-                            
+                                <Space space="20px"/>
+                                
                             <TextField name="location" type="text" label="location" placeholder="where you currently live" 
                             className={classes.textField} value={this.state.location} fullWidth onChange={this.onChange}/>
                         </form>

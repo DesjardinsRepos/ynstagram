@@ -10,6 +10,15 @@ export default {
     dialogContent: {
         padding: 20
     },
+    dialog: {
+        '& .MuiPaper-root': {
+            margin: 0,
+            width: '100vw'
+        }
+    },
+    correctCenter: {
+        margin: '0 auto'
+    },
     userInfo: {
         margin: 'auto',
         marginLeft: 0,

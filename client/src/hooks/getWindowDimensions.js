@@ -8,7 +8,7 @@ const getWindowDimensions = () => {
   };
 }
 
-export default () => {
+export default (mobile, tablet) => {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   useEffect(() => {
@@ -20,5 +20,19 @@ export default () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return windowDimensions;
+  return mobile ? (
+    windowDimensions.width <= mobile ? (
+      'mobile'
+    ) : (
+      tablet ? (
+        windowDimensions.width <= tablet ? (
+          'tablet'
+        ) : (
+          'pc'
+        )
+      ) : ('pc')
+    )
+  ) : (
+    windowDimensions
+  )
 }

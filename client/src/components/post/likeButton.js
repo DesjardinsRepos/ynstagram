@@ -26,7 +26,7 @@ export class LikeButton extends Component {
 
         const { authenticated } = this.props.user;
 
-        const likeButton = !authenticated ? (
+        return !authenticated ? (
             <Link to="/signin">
                 <WrappedButton title="Like" padding={this.props.padding}>
                     <HearthEmpty color="primary"/>
@@ -43,8 +43,6 @@ export class LikeButton extends Component {
                 </WrappedButton>
             )
         )
-
-        return likeButton;
     }
 }
 

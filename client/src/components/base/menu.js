@@ -1,17 +1,16 @@
 import React from 'react';
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Person as MenuIcon } from '@material-ui/icons';
 
 import WrappedButton from './wrappedButton';
+import getDevice from '../../hooks/getDevice';
 
-const Menu = ({ doOpen }) => {
-    const required = !useMediaQuery('(min-width:1024px)');
-    const smallSizeRequired = useMediaQuery('(min-width:600px)');
+export default ({ doOpen }) => {
+    const device = getDevice(600, 1024);
 
     return( 
-        required ? (
-            smallSizeRequired ? (
+        device !== 'pc' ? (
+            device === 'tablet' ? (
 
                 <WrappedButton title="see more" onClick={doOpen} style={{ position: 'absolute', top: '8px', left: '8px' }}>
                     <MenuIcon className="nav-icon"/>
@@ -27,4 +26,3 @@ const Menu = ({ doOpen }) => {
         )
     );
 }
-export default Menu;

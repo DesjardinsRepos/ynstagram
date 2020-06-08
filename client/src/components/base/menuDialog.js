@@ -1,8 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Dialog,  DialogContent, LinearProgress as Progress } from '@material-ui/core';
-import { Close as CloseIcon, ExpandMore as ExpandIcon, Chat as ChatIcon } from '@material-ui/icons';
+import { Dialog,  DialogContent } from '@material-ui/core';
+import { Close as CloseIcon } from '@material-ui/icons';
 
 import WrappedButton from '../base/wrappedButton';
 import UserProfile from '../profile/userProfile';
@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Menu from './menu';
 import styles from '../../styles/menuDialog';
+
 class MenuDialog extends Component {
     state = {
         open: false
@@ -24,7 +25,7 @@ class MenuDialog extends Component {
     }
 
     render() {
-        const { classes, ui: { loading } } = this.props;
+        const { classes } = this.props;
 
         return (
             <Fragment>

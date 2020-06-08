@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Paper, Grid } from '@material-ui/core';
@@ -13,22 +12,15 @@ import Website from '../base/profile/website';
 import Joined from '../base/profile/joined';
 import Bio from '../base/profile/bio';
 
-import getWindowDimensions from '../../hooks/getWindowDimensions';
+import getDevice from '../../hooks/getDevice';
 
-const StaticProfile = props => {
+export default withStyles(styles)( ({ classes, profile: { handle, createdAt, imageUrl, bio, website, location }}) => {
 
-    const { 
-        classes, 
-        profile: { handle, createdAt, imageUrl, bio, website, location } 
-    } = props; // NO THIS!!
-
-    const { width } = getWindowDimensions();
-    const mobile = width < 720;
-    const pc = width > 1320; 
+    const device = getDevice(720, 1320);
 
     return (
         <Fragment>
-            { mobile ? (
+            { device === 'mobile' ? (
                 <Fragment>  
                     <Space/>
 
@@ -64,7 +56,7 @@ const StaticProfile = props => {
                     <Paper className={classes.paper}>
                         <Space small/>
 
-                        { pc ? (
+                        { device === 'pc' ? (
                             <UserImage image={imageUrl} className={classes.imgPc} size="150px"/>
                         ) : (
                             <UserImage image={imageUrl} className={classes.imgTablet} size="150px"/>
@@ -93,12 +85,4 @@ const StaticProfile = props => {
             )}
         </Fragment>
     )
-
-}
-
-StaticProfile.propTypes = {
-    profile: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(StaticProfile);
+});

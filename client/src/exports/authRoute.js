@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 const authRoute = ({ component: Component, authenticated, ...rest}) => (
         <Route {...rest} render={(props) => authenticated === true ? // checking true compulsive? 
-            <Redirect to='/'/> : <Component {...props}/>}/>
+            <Redirect to='/'/> : <Component {...props}/>}>
+        </Route>
     );
 
 const mapState = state => ({
